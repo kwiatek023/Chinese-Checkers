@@ -5,9 +5,19 @@ import javafx.fxml.FXML;
 import java.io.IOException;
 
 public class PrimaryController {
+    private Client client;
 
     @FXML
-    private void switchToSecondary() throws IOException {
-        App.setRoot("secondary");
+    public void initialize() {
+        client = Client.getInstance();
+    }
+
+    @FXML
+    public void switchDependsOnOrder() throws IOException {
+        if(client.isFirst()) {
+            App.setRoot("setGame");
+        } else {
+            App.setRoot("waiting");
+        }
     }
 }
