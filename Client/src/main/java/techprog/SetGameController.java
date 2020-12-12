@@ -17,7 +17,7 @@ public class SetGameController {
 
     @FXML
     public void sendSettings() throws IOException {
-        client.sendHandshake(variantField.getText(), noPlayersField.getText());
+        client.setGame(variantField.getText(), noPlayersField.getText());
         App.setRoot("waiting");
     }
 }

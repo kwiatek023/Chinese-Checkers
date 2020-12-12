@@ -23,6 +23,6 @@ class ClientTest {
     @Test
     void isFirst() {
         Client client = Client.getInstance();
-        Assertions.assertTrue(client.isFirst());
+        Assertions.assertTrue(client.isOwner());
     }
 }

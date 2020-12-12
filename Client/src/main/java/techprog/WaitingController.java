@@ -8,9 +8,10 @@ public class WaitingController {
     private Client client;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException {
         client = Client.getInstance();
         client.setWaitingController(this);
+
         new Thread(() -> {
             try {
                 client.waitForStart();
