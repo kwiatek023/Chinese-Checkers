@@ -13,8 +13,8 @@ public class PrimaryController {
     }
 
     @FXML
-    public void switchDependsOnOrder() throws IOException {
-        if(client.isFirst()) {
+    public void switchDependsOnPrivileges() throws IOException {
+        if(client.isOwner()) {
             App.setRoot("setGame");
         } else {
             App.setRoot("waiting");

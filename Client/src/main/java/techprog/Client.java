@@ -12,14 +12,14 @@ public class Client {
     private Scanner in;
     private PrintWriter out;
     private static Client instance = new Client();
-    private boolean isFirst = false;
+    private boolean isOwner = false;
     private GameController gameController;
     private WaitingController waitingController;
 
     private Client() {
         initSocket();
-        checkOrder();
-    };
+        receiveHandshake();
+    }
 
     public static Client getInstance() {
         return instance;
@@ -39,16 +39,16 @@ public class Client {
         }
     }
 
-    private void checkOrder() {
+    private void receiveHandshake() {
         var response = in.nextLine();
-        isFirst = response.startsWith("FIRST");
+        isOwner = response.startsWith("OWNER");
     }
 
-    public boolean isFirst() {
-        return isFirst;
+    public boolean isOwner() {
+        return isOwner;
     }
 
-    public void sendHandshake(String variant, String noPlayers) {
+    public void setGame(String variant, String noPlayers) {
         out.println(variant);
         out.println(noPlayers);
     }
@@ -58,7 +58,8 @@ public class Client {
     }
 
     public void waitForStart() throws IOException {
-        var response = in.nextLine();
+        in.nextLine();
+
         Platform.runLater(() -> {
             try {
                 waitingController.startGame();

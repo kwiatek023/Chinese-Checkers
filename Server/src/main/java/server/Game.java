@@ -1,6 +1,5 @@
 package server;
 
-import gameVariants.GameVariant;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -17,6 +16,7 @@ public class Game {
   private List<String> colors = new ArrayList<>(Arrays.asList("red", "yellow", "blue", "green", "white", "black"));
   private String gameVariant;
   private int noPlayers;
+  private List<Player> players;
 //  graczy
 //  isOwner
 //  Player( .accept(), true);
@@ -27,6 +27,7 @@ public class Game {
 
   public Game(ServerSocket socket) {
     this.socket = socket;
+    this.players = createPlayers();
     try {
       start();
     } catch (IOException e) {
@@ -34,10 +35,13 @@ public class Game {
     }
   }
 
-  private void start() throws IOException {
-    var pool = Executors.newFixedThreadPool(6);
+  private List<Player> createPlayers() {
+    return new ArrayList<>();
+  }
 
+  private void start() throws IOException {
     Player owner = new Player(socket.accept(), colors.get(0));
+    players.add(owner);
     noConnectedPlayers = 1;
 
     owner.protocol.sendHandshake("OWNER");
@@ -54,13 +58,20 @@ public class Game {
       }
     }
 
-    pool.execute(owner);
-
     while (noConnectedPlayers < noPlayers) {
       var player = new Player(socket.accept(), colors.get(noConnectedPlayers));
       player.protocol.sendHandshake("PLAYER");
-      pool.execute(player);
+      players.add(player);
       noConnectedPlayers++;
+    }
+    runPlayers();
+  }
+
+  private void runPlayers() {
+    var pool = Executors.newFixedThreadPool(6);
+
+    for (Player player: players) {
+      pool.execute(player);
     }
   }
 
@@ -74,7 +85,6 @@ public class Game {
     public Player(Socket socket, String color) {
       this.socket = socket;
       this.color = color;
-      Protocol protocol;
 
       try {
         input = new Scanner(socket.getInputStream());
@@ -87,7 +97,7 @@ public class Game {
 
     @Override
     public void run() {
-
+      protocol.welcome();
     }
   }
 }
