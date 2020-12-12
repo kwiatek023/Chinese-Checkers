@@ -18,6 +18,5 @@ public class Main {
             System.out.println(n);}
         output.println("START");
         while(true);
-
     }
 }
