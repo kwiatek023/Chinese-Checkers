@@ -13,6 +13,7 @@ public class Client {
     private PrintWriter out;
     private static Client instance = new Client();
     private boolean isOwner = false;
+    private String color;
     private GameController gameController;
     private WaitingController waitingController;
 
@@ -58,7 +59,11 @@ public class Client {
     }
 
     public void waitForStart() throws IOException {
-        in.nextLine();
+        if(in.hasNextLine()) {
+            var greetings = in.nextLine();
+            String[] split = greetings.split(" ");
+            this.color = split[1];
+        }
 
         Platform.runLater(() -> {
             try {
