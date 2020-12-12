@@ -60,8 +60,8 @@ public class Client {
 
     public void waitForStart() throws IOException {
         if(in.hasNextLine()) {
-            var greetings = in.nextLine();
-            String[] split = greetings.split(" ");
+            var welcomeMessage = in.nextLine();
+            String[] split = welcomeMessage.split(" ");
             this.color = split[1];
         }
 
@@ -80,5 +80,9 @@ public class Client {
 
     public void play() {
         System.out.println("PLAY");
+    }
+
+    public String getColor() {
+        return color;
     }
 }
