@@ -27,6 +27,7 @@ public class App extends Application {
 
         scene = new Scene(loadFXML(resource), 640, 480);
         stage.setScene(scene);
+        stage.setTitle("Chinese Checkers");
         stage.show();
     }
 
