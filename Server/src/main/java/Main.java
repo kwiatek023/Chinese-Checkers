@@ -1,6 +1,13 @@
+import server.Server;
+import java.io.IOException;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello");
-        System.out.println("Remote commit test");
+        try {
+            Server server = new Server();
+            server.openRoom();
+        } catch (IOException e) {
+            System.out.println("Unable to run the server.");
+        }
     }
 }
