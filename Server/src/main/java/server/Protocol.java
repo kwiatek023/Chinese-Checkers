@@ -13,7 +13,7 @@ public class Protocol {
     output.println(name);
   }
 
-  public void welcome() {
-    output.println("START");
+  public void welcome(String color) {
+    output.println("WELCOME " + color);
   }
 }

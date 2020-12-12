@@ -1,5 +1,8 @@
 package server;
 
+import gameVariants.ConcreteVariantFactory;
+import gameVariants.GameVariant;
+import gameVariants.VariantFactory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -14,16 +17,9 @@ public class Game {
   private ServerSocket socket;
   private int noConnectedPlayers;
   private List<String> colors = new ArrayList<>(Arrays.asList("red", "yellow", "blue", "green", "white", "black"));
-  private String gameVariant;
+  private GameVariant gameVariant;
   private int noPlayers;
   private List<Player> players;
-//  graczy
-//  isOwner
-//  Player( .accept(), true);
-
-//  handshake
-//  while
-
 
   public Game(ServerSocket socket) {
     this.socket = socket;
@@ -47,7 +43,7 @@ public class Game {
     owner.protocol.sendHandshake("OWNER");
 
     if (owner.input.hasNextLine()) {
-      gameVariant = owner.input.nextLine();
+      gameVariant = new ConcreteVariantFactory().getGameVariant(owner.input.nextLine());
     }
 
     if (owner.input.hasNextLine()) {
@@ -97,7 +93,7 @@ public class Game {
 
     @Override
     public void run() {
-      protocol.welcome();
+      protocol.welcome(color);
     }
   }
 }
