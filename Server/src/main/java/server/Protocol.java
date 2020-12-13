@@ -7,6 +7,7 @@ public class Protocol {
 
   public Protocol(PrintWriter printWriter) {
     this.output = printWriter;
+    System.out.println("Server: protocol created.");
   }
 
   public void sendHandshake(String name) {
