@@ -13,7 +13,7 @@ public class Client {
     private PrintWriter out;
     private static Client instance = new Client();
     private boolean isOwner = false;
-    private String color;
+    private WelcomeMessage welcomeMessage;
     private GameController gameController;
     private WaitingController waitingController;
 
@@ -60,9 +60,8 @@ public class Client {
 
     public void waitForStart() throws IOException {
         if(in.hasNextLine()) {
-            var welcomeMessage = in.nextLine();
-            String[] split = welcomeMessage.split(" ");
-            this.color = split[1];
+            var split = in.nextLine().split("");
+            welcomeMessage = new WelcomeMessage(split[1], Integer.parseInt(split[2]), split[3]);
         }
 
         Platform.runLater(() -> {
@@ -82,7 +81,7 @@ public class Client {
         System.out.println("PLAY");
     }
 
-    public String getColor() {
-        return color;
+    public WelcomeMessage getWelcomeMessage() {
+        return welcomeMessage;
     }
 }
