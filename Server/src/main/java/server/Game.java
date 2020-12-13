@@ -2,6 +2,8 @@ package server;
 
 import gameVariants.ConcreteVariantFactory;
 import gameVariants.GameVariant;
+import logic.Board;
+import logic.MoveController;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,7 +22,7 @@ public class Game {
     private int noPlayers;
     private List<Player> players;
     private Board board;
-    private GameController controller;
+    private MoveController controller;
 
     public Game(ServerSocket socket) {
         this.socket = socket;
@@ -37,7 +39,7 @@ public class Game {
     }
 
     private void start() throws IOException {
-        GameVariant gameVariant;
+        GameVariant gameVariant = null;
         Player owner = new Player(socket.accept(), colors.get(0));
         players.add(owner);
         noConnectedPlayers = 1;
@@ -51,10 +53,8 @@ public class Game {
         if (owner.input.hasNextLine()) {
             noPlayers = Integer.parseInt(owner.input.nextLine());
             board = new Board(gameVariant, noPlayers);
-            controller = new GameController(board);
-//      if (noPlayers < 2 || noPlayers == 5 || noPlayers > 6) {
-//        throw new IllegalArgumentException("Invalid number of players.");
-//      }
+            controller = new MoveController(board);
+
         }
 
         matchColors(noPlayers);
