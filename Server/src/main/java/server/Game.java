@@ -58,11 +58,8 @@ public class Game {
         }
 
         matchColors(noPlayers);
-
-       connectWithOtherPlayers();
-
+        connectWithOtherPlayers();
         makeQueue();
-
         runPlayers();
     }
 
