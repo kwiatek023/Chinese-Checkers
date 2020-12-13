@@ -2,15 +2,14 @@ package server;
 
 import gameVariants.ConcreteVariantFactory;
 import gameVariants.GameVariant;
+import logic.Board;
+import logic.MoveController;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.Executors;
 
 public class Game {
@@ -20,7 +19,10 @@ public class Game {
     private int noPlayers;
     private List<Player> players;
     private Board board;
-    private GameController controller;
+    private MoveController controller;
+    private int indexCurrentPlayer;
+    private Player currentPlayer;
+
 
     public Game(ServerSocket socket) {
         this.socket = socket;
@@ -37,7 +39,7 @@ public class Game {
     }
 
     private void start() throws IOException {
-        GameVariant gameVariant;
+        GameVariant gameVariant = null;
         Player owner = new Player(socket.accept(), colors.get(0));
         players.add(owner);
         noConnectedPlayers = 1;
@@ -51,24 +53,63 @@ public class Game {
         if (owner.input.hasNextLine()) {
             noPlayers = Integer.parseInt(owner.input.nextLine());
             board = new Board(gameVariant, noPlayers);
-            controller = new GameController(board);
-//      if (noPlayers < 2 || noPlayers == 5 || noPlayers > 6) {
-//        throw new IllegalArgumentException("Invalid number of players.");
-//      }
+            controller = new MoveController(board);
+
         }
 
         matchColors(noPlayers);
 
+       connectWithOtherPlayers();
+
+        makeQueue();
+
+        runPlayers();
+    }
+
+    private void connectWithOtherPlayers() throws IOException {
         while (noConnectedPlayers < noPlayers) {
             var player = new Player(socket.accept(), colors.get(noConnectedPlayers));
             player.protocol.sendHandshake("PLAYER");
             players.add(player);
             noConnectedPlayers++;
         }
-        runPlayers();
     }
 
-    private void runPlayers() {
+    private void makeQueue() {
+        indexCurrentPlayer = new Random().nextInt(noPlayers);
+        currentPlayer = players.get(indexCurrentPlayer);
+    }
+
+  private void matchColors(int noPlayers) {
+      switch (noPlayers) {
+          case 2: {
+              colors.add("RED");
+              break;
+          }
+          case 3: {
+              colors.add("YELLOW");
+              colors.add("BLACK");
+              break;
+          }
+          case 4: {
+              colors.add("YELLOW");
+              colors.add("RED");
+              colors.add("BLUE");
+              break;
+          }
+          case 6: {
+              colors.add("WHITE");
+              colors.add("YELLOW");
+              colors.add("RED");
+              colors.add("BLACK");
+              colors.add("BLUE");
+              break;
+          }
+      }
+  }
+
+
+  private void runPlayers() {
         var pool = Executors.newFixedThreadPool(6);
 
         for (Player player : players) {
@@ -98,7 +139,7 @@ public class Game {
 
         @Override
         public void run() {
-            protocol.welcome(color);
+            protocol.welcome(color, noPlayers, currentPlayer.color);
         }
     }
 }
