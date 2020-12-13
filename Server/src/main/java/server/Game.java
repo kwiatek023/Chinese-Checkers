@@ -26,7 +26,7 @@ public class Game {
 
     public Game(ServerSocket socket) {
         this.socket = socket;
-        this.players = createPlayers();
+        this.players = createPlayersList();
         try {
             start();
         } catch (IOException e) {
@@ -34,7 +34,7 @@ public class Game {
         }
     }
 
-    private List<Player> createPlayers() {
+    private List<Player> createPlayersList() {
         return new ArrayList<>();
     }
 
