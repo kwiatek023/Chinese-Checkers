@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import techprog.Board.Board;
+import techprog.Board.Field;
 
 public class GameController {
     public BorderPane boardPane;
@@ -14,6 +15,7 @@ public class GameController {
     private int noPlayers;
     private String currentPlayer;
     private Board board;
+    private Field[][] fields;
 
     @FXML
     public void initialize() {
@@ -40,6 +42,7 @@ public class GameController {
     }
 
     private void drawFields() {
+
     }
 
     private void drawPawns() {
