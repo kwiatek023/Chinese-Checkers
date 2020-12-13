@@ -68,7 +68,36 @@ public class Game {
         runPlayers();
     }
 
-    private void runPlayers() {
+  private void matchColors(int noPlayers) {
+      switch (noPlayers) {
+          case 2: {
+              colors.add("RED");
+              break;
+          }
+          case 3: {
+              colors.add("YELLOW");
+              colors.add("BLACK");
+              break;
+          }
+          case 4: {
+              colors.add("YELLOW");
+              colors.add("RED");
+              colors.add("BLUE");
+              break;
+          }
+          case 6: {
+              colors.add("WHITE");
+              colors.add("YELLOW");
+              colors.add("RED");
+              colors.add("BLACK");
+              colors.add("BLUE");
+              break;
+          }
+      }
+  }
+
+
+  private void runPlayers() {
         var pool = Executors.newFixedThreadPool(6);
 
         for (Player player : players) {
