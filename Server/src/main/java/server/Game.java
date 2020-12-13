@@ -26,7 +26,7 @@ public class Game {
 
     public Game(ServerSocket socket) {
         this.socket = socket;
-        this.players = createPlayers();
+        this.players = createPlayersList();
         try {
             start();
         } catch (IOException e) {
@@ -34,12 +34,8 @@ public class Game {
         }
     }
 
-    if (owner.input.hasNextLine()) {
-      noPlayers = Integer.parseInt(owner.input.nextLine());
-
-      if (noPlayers < 2 || noPlayers == 5 || noPlayers > 6) {
-        throw new IllegalArgumentException("Invalid number of players.");
-      }
+    private List<Player> createPlayersList() {
+        return new ArrayList<>();
     }
 
     private void start() throws IOException {
