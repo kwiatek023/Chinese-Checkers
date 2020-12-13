@@ -5,9 +5,9 @@ import javafx.scene.Group;
 public class AbstractBoard extends Group {
     int noPlayers;
     int noRows;
-    int noFieldsInRow[];
-    int horizontalIDs[];
-    int noIgnoredFields[];
+    int[] noFieldsInRow;
+    int[] horizontalConstant;
+    int[] noIgnoredFields;
     Field[][] fields;
 
     public int getNoPlayers() {
@@ -34,9 +34,11 @@ public class AbstractBoard extends Group {
         this.noFieldsInRow = noFieldsInRow;
     }
 
-    public void setHorizontalIDs(int[] horizontalIDs) {
-        this.horizontalIDs = horizontalIDs;
+    public int getHorizontalConstant(int noRow) {
+        return horizontalConstant[noRow];
     }
 
-
+    public int getNoIgnoredFields(int noRow) {
+        return noIgnoredFields[noRow];
+    }
 }
