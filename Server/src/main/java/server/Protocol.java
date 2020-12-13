@@ -13,8 +13,8 @@ public class Protocol {
     output.println(name);
   }
 
-  public void welcome(String color) {
-    output.println("WELCOME " + color);
+  public void welcome(String color, int noPlayers, String currentColor) {
+    output.println("WELCOME " + color + " " + noPlayers + " " + currentColor);
 
   }
 
