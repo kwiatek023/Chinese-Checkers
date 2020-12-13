@@ -9,10 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.Executors;
 
 public class Game {
@@ -23,6 +20,9 @@ public class Game {
     private List<Player> players;
     private Board board;
     private MoveController controller;
+    private int indexCurrentPlayer;
+    private Player currentPlayer;
+
 
     public Game(ServerSocket socket) {
         this.socket = socket;
@@ -59,13 +59,25 @@ public class Game {
 
         matchColors(noPlayers);
 
+       connectWithOtherPlayers();
+
+        makeQueue();
+
+        runPlayers();
+    }
+
+    private void connectWithOtherPlayers() throws IOException {
         while (noConnectedPlayers < noPlayers) {
             var player = new Player(socket.accept(), colors.get(noConnectedPlayers));
             player.protocol.sendHandshake("PLAYER");
             players.add(player);
             noConnectedPlayers++;
         }
-        runPlayers();
+    }
+
+    private void makeQueue() {
+        indexCurrentPlayer = new Random().nextInt(noPlayers);
+        currentPlayer = players.get(indexCurrentPlayer);
     }
 
   private void matchColors(int noPlayers) {
@@ -127,7 +139,7 @@ public class Game {
 
         @Override
         public void run() {
-            protocol.welcome(color);
+            protocol.welcome(color, noPlayers, currentPlayer.color);
         }
     }
 }
