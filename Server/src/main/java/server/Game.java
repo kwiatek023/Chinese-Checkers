@@ -74,6 +74,8 @@ public class Game {
             noConnectedPlayers++;
         }
     }
+    runPlayers();
+  }
 
     private void makeQueue() {
         indexCurrentPlayer = new Random().nextInt(noPlayers);
@@ -112,9 +114,29 @@ public class Game {
   private void runPlayers() {
         var pool = Executors.newFixedThreadPool(6);
 
-        for (Player player : players) {
-            pool.execute(player);
-        }
+    for (Player player: players) {
+      pool.execute(player);
+    }
+  }
+
+  class Player implements Runnable {
+    private Scanner input = null;
+    private PrintWriter output = null;
+    private Socket socket;
+    private String color;
+    Protocol protocol;
+
+    public Player(Socket socket, String color) {
+      this.socket = socket;
+      this.color = color;
+
+      try {
+        input = new Scanner(socket.getInputStream());
+        output = new PrintWriter(socket.getOutputStream(), true);
+        protocol = new Protocol(output);
+      } catch (IOException e) {
+        System.out.println("Game: error occurred while creating new player.");
+      }
     }
 
     class Player implements Runnable {
@@ -141,5 +163,7 @@ public class Game {
         public void run() {
             protocol.welcome(color, noPlayers, currentPlayer.color);
         }
+
     }
+  }
 }
