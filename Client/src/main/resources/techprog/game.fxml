@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="board" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
+<BorderPane fx:id="boardPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="techprog.GameController">
     <center>
     </center>
 
-    <right>
+    <left>
         <VBox>
             <Label fx:id="colorLabel"/>
             <Label fx:id="turnLabel"/>
         </VBox>
-    </right>
+    </left>
 
 </BorderPane>
