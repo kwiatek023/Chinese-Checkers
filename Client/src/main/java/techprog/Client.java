@@ -60,7 +60,7 @@ public class Client {
 
     public void waitForStart() throws IOException {
         if(in.hasNextLine()) {
-            var split = in.nextLine().split("");
+            var split = in.nextLine().split(" ");
             welcomeMessage = new WelcomeMessage(split[1], Integer.parseInt(split[2]), split[3]);
         }
 
