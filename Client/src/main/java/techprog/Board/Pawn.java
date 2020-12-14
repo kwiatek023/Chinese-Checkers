@@ -26,4 +26,5 @@ public class Pawn extends Circle {
     public Color getColor() {
         return color;
     }
+
 }

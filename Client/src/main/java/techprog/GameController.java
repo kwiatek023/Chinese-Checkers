@@ -15,11 +15,11 @@ public class GameController {
     public Label colorLabel;
     public Label turnLabel;
     private Client client;
-    private String color;
+    private Color color;
     private int noPlayers;
     private String currentPlayer;
     private Board board;
-    private Field[][] fields;
+    private Pawn activePawn = null;
 
     @FXML
     public void initialize() {
@@ -27,15 +27,20 @@ public class GameController {
         client.setGameController(this);
 
         var welcomeMessage = client.getWelcomeMessage();
-        color = welcomeMessage.getColor();
+        String colorName = welcomeMessage.getColor();
         noPlayers = welcomeMessage.getNoPlayers();
         currentPlayer = welcomeMessage.getFirstPlayer();
 
-        colorLabel.setText("You are " + color);
+        colorLabel.setText("You are " + colorName);
         turnLabel.setText("Now is " + currentPlayer + "'s turn");
 
+        color = new ConcreteColorFactory().getColor(colorName);
+
         drawBoard();
-        client.play();
+
+        new Thread(() -> {
+            client.play();
+        }).start();
     }
 
     private void drawBoard() {
@@ -49,14 +54,14 @@ public class GameController {
         int radius = 20;
         int space = 10;
 
-        for(int i = 0; i < board.getNoRows(); i++) {
+        for (int i = 0; i < board.getNoRows(); i++) {
             double y = (i * (2 * radius + space)) * sqrt(3) / 2 + (radius + space);
 
-            for(int j = 0; j < board.getNoFieldsInRow(i); j++) {
+            for (int j = 0; j < board.getNoFieldsInRow(i); j++) {
                 Field field = board.getField(i, board.getHorizontalConstant(i) + j);
                 int x = (board.getNoIgnoredFields(i) + j) * (2 * radius + space);
 
-                if(i % 2 == 1) {
+                if (i % 2 == 1) {
                     x += (2 * radius + space) / 2;
                 }
 
@@ -64,6 +69,14 @@ public class GameController {
                 field.setCenterX(x);
                 field.setCenterY(y);
                 field.setFill(Color.GRAY);
+
+                field.setOnMouseClicked(event -> {
+                    if (activePawn != null) {
+                        client.sendMessage("MOVE " + activePawn.getVerticalID() + " " + activePawn.getHorizontalID() + " "
+                                + field.getVerticalID() + " " + field.getHorizontalID());
+                    }
+                });
+
                 board.getChildren().addAll(field);
             }
         }
@@ -73,12 +86,12 @@ public class GameController {
         int radius = 20;
         int space = 10;
 
-        for(int i = 0; i < board.getNoRows(); i++) {
+        for (int i = 0; i < board.getNoRows(); i++) {
             double y = (i * (2 * radius + space)) * sqrt(3) / 2 + (radius + space);
 
-            for(int j = 0; j < board.getNoFieldsInRow(i); j++) {
+            for (int j = 0; j < board.getNoFieldsInRow(i); j++) {
                 Pawn pawn = board.getPawn(i, board.getHorizontalConstant(i) + j);
-                if(pawn != null) {
+                if (pawn != null) {
                     int x = (board.getNoIgnoredFields(i) + j) * (2 * radius + space);
 
                     if (i % 2 == 1) {
@@ -89,6 +102,13 @@ public class GameController {
                     pawn.setCenterX(x);
                     pawn.setCenterY(y);
                     pawn.setFill(pawn.getColor());
+
+                    pawn.setOnMouseClicked(event -> {
+                        if (pawn.getColor().equals(this.color)) {
+                            activePawn = pawn;
+                        }
+                    });
+
                     board.getChildren().addAll(pawn);
                 }
             }
@@ -96,4 +116,17 @@ public class GameController {
     }
 
 
+    public void resetActivePawn() {
+        this.activePawn = null;
+    }
+
+    public void redrawBoard(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
+        board.updatePawns(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
+        Field field = board.getField(newVerticalID, newHorizontalID);
+        Pawn movedPawn = board.getPawn(newVerticalID, newHorizontalID);
+
+        movedPawn.setCenterX(field.getCenterX());
+        movedPawn.setCenterY(field.getCenterY());
+
+    }
 }
