@@ -9,6 +9,7 @@ public class AbstractBoard extends Group {
     int[] horizontalConstant;
     int[] noIgnoredFields;
     Field[][] fields;
+    Pawn[][] pawns;
 
     public int getNoPlayers() {
         return noPlayers;
@@ -24,6 +25,10 @@ public class AbstractBoard extends Group {
 
     public Field getField(int verticalID, int horizontalID) {
         return fields[verticalID][horizontalID];
+    }
+
+    public Pawn getPawn(int verticalID, int horizontalID) {
+        return pawns[verticalID][horizontalID];
     }
 
     public void setNoRows(int noRows) {
