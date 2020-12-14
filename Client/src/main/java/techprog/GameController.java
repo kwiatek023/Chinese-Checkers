@@ -6,6 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import techprog.Board.Board;
 import techprog.Board.Field;
+import techprog.Board.Pawn;
 
 import static java.lang.Math.sqrt;
 
@@ -69,5 +70,28 @@ public class GameController {
     }
 
     private void drawPawns() {
+        int radius = 20;
+        int space = 10;
+
+        for(int i = 0; i < board.getNoRows(); i++) {
+            double y = (i * (2 * radius + space)) * sqrt(3) / 2 + (radius + space);
+
+            for(int j = 0; j < board.getNoFieldsInRow(i); j++) {
+                Pawn pawn = board.getPawn(i, board.getHorizontalConstant(i) + j);
+                if(pawn != null) {
+                    int x = (board.getNoIgnoredFields(i) + j) * (2 * radius + space);
+
+                    if (i % 2 == 1) {
+                        x += (2 * radius + space) / 2;
+                    }
+
+                    pawn.setRadius(radius);
+                    pawn.setCenterX(x);
+                    pawn.setCenterY(y);
+                    pawn.setFill(pawn.getColor());
+                    board.getChildren().addAll(pawn);
+                }
+            }
+        }
     }
 }
