@@ -9,13 +9,25 @@ public class Board extends AbstractBoard {
         }
         this.noPlayers = noPlayers;
 
-        noRows = 17;
-        noFieldsInRow = new int[] {1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1};
-        horizontalConstant = new int[] {4, 4, 4, 4, 0, 1, 2, 3, 4, 4, 4, 4, 4, 9, 10, 11, 12};
-        noIgnoredFields = new int[] {6, 5, 5, 4, 0, 0, 1, 1, 2, 1, 1, 0, 0, 4, 5, 5, 6};
+        this.noRows = 17;
+        this.noFieldsInRow = createNoFieldsInRow();
+        this.horizontalConstant = createHorizontalConstant();
+        this.noIgnoredFields = createNoIgnoredFields();
 
         createFields();
         createPawns(noPlayers);
+    }
+
+    private int[] createNoFieldsInRow() {
+        return new int[] {1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1};
+    }
+
+    private int[] createHorizontalConstant() {
+        return new int[] {4, 4, 4, 4, 0, 1, 2, 3, 4, 4, 4, 4, 4, 9, 10, 11, 12};
+    }
+
+    private int[] createNoIgnoredFields() {
+        return new int[] {6, 5, 5, 4, 0, 0, 1, 1, 2, 1, 1, 0, 0, 4, 5, 5, 6};
     }
 
     private void createFields() {
