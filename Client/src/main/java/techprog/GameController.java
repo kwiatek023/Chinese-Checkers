@@ -15,11 +15,11 @@ public class GameController {
     public Label colorLabel;
     public Label turnLabel;
     private Client client;
-    private String color;
+    private Color color;
     private int noPlayers;
     private String currentPlayer;
     private Board board;
-    private Field[][] fields;
+    private Pawn activePawn = null;
 
     @FXML
     public void initialize() {
@@ -27,12 +27,14 @@ public class GameController {
         client.setGameController(this);
 
         var welcomeMessage = client.getWelcomeMessage();
-        color = welcomeMessage.getColor();
+        String colorName = welcomeMessage.getColor();
         noPlayers = welcomeMessage.getNoPlayers();
         currentPlayer = welcomeMessage.getFirstPlayer();
 
-        colorLabel.setText("You are " + color);
+        colorLabel.setText("You are " + colorName);
         turnLabel.setText("Now is " + currentPlayer + "'s turn");
+
+        color = new ConcreteColorFactory().getColor(colorName);
 
         drawBoard();
         client.play();
@@ -64,6 +66,14 @@ public class GameController {
                 field.setCenterX(x);
                 field.setCenterY(y);
                 field.setFill(Color.GRAY);
+
+                field.setOnMouseClicked(event -> {
+                    if(activePawn != null) {
+                        client.sendMessage("MOVE "+ activePawn.getVerticalID() + " " + activePawn.getHorizontalID() + " "
+                        + field.getVerticalID() + " " + field.getHorizontalID());
+                    }
+                });
+
                 board.getChildren().addAll(field);
             }
         }
@@ -89,6 +99,13 @@ public class GameController {
                     pawn.setCenterX(x);
                     pawn.setCenterY(y);
                     pawn.setFill(pawn.getColor());
+
+                    pawn.setOnMouseClicked(event -> {
+                        if(pawn.getColor().equals(this.color)) {
+                            activePawn = pawn;
+                        }
+                    });
+
                     board.getChildren().addAll(pawn);
                 }
             }
@@ -96,4 +113,17 @@ public class GameController {
     }
 
 
+    public void resetActivePawn() {
+        this.activePawn = null;
+    }
+
+    public void redrawBoard(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
+        board.updatePawns(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
+        Field field = board.getField(newVerticalID, newHorizontalID);
+        Pawn movedPawn = board.getPawn(newVerticalID, newHorizontalID);
+
+        movedPawn.setCenterX(field.getCenterX());
+        movedPawn.setCenterY(field.getCenterY());
+
+    }
 }

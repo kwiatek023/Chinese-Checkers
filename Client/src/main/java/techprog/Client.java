@@ -78,10 +78,33 @@ public class Client {
     }
 
     public void play() {
-        System.out.println("PLAY");
+        while(in.hasNextLine()) {
+            var response = in.nextLine();
+            System.out.println("Response from server: " + response);
+            String[] commands = response.split(" ");
+
+            switch (commands[0]) {
+                case "VALID_MOVE": {
+                    Platform.runLater(() -> {
+                        int oldVerticalID = Integer.parseInt(commands[1]);
+                        int oldHorizontalID = Integer.parseInt(commands[2]);
+                        int newVerticalID = Integer.parseInt(commands[3]);
+                        int newHorizontalID = Integer.parseInt(commands[4]);
+
+                        gameController.resetActivePawn();
+                        gameController.redrawBoard(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
+                    });
+                    break;
+                }
+            }
+        }
     }
 
     public WelcomeMessage getWelcomeMessage() {
         return welcomeMessage;
+    }
+
+    public void sendMessage(String message) {
+        out.println(message);
     }
 }
