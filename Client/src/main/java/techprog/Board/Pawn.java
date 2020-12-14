@@ -12,6 +12,7 @@ public class Pawn extends Circle {
         this.verticalID = verticalID;
         this.horizontalID = horizontalID;
         this.color = color;
+        this.setStroke(Color.BLACK);
     }
 
     public int getVerticalID() {
