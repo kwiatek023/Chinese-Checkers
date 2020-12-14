@@ -9,6 +9,6 @@ public class BasicGameVariant extends GameVariant {
 
   @Override
   public boolean validMove() {
-    return false;
+    return true;
   }
 }

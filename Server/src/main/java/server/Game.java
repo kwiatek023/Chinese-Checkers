@@ -137,6 +137,7 @@ public class Game {
     @Override
     public void run() {
       protocol.welcome(color, noPlayers, currentPlayer.color);
+      processCommands();
     }
 
     private void processCommands() {
