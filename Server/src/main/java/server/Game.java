@@ -52,8 +52,8 @@ public class Game {
 
     if (owner.input.hasNextLine()) {
       noPlayers = Integer.parseInt(owner.input.nextLine());
-      board = new Board(gameVariant, noPlayers);
-      controller = new MoveController(board);
+      board = new Board(noPlayers);
+      controller = new MoveController(board, gameVariant);
 
     }
 

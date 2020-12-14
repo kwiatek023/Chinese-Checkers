@@ -6,8 +6,9 @@ public class BasicGameVariant extends GameVariant {
     this.blockAllowed = true;
   }
 
-  @Override
-  public void move() {
 
+  @Override
+  public boolean validMove() {
+    return false;
   }
 }
