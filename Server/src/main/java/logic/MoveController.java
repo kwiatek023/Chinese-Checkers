@@ -11,9 +11,8 @@ public class MoveController {
     this.gameVariant = gameVariant;
   }
 
-  private boolean validMove() {
+
+  public boolean validMove(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
     return gameVariant.validMove();
   }
-
-
 }

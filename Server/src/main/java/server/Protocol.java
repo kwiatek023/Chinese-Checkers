@@ -16,19 +16,21 @@ public class Protocol {
 
   public void welcome(String color, int noPlayers, String currentColor) {
     output.println("WELCOME " + color + " " + noPlayers + " " + currentColor);
-
   }
 
   public void nextTurn(String color) {
-    output.println("NEXT" + color);
-  }
-
-  public void invalidMove() {
-    output.println("INVALID MOVE");
+    output.println("NEXT " + color);
   }
 
   public void endGame(String color) {
     output.println("END " + color);
   }
 
+  public void opponentMoved(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
+    output.println("OPPONENT_MOVED " + oldVerticalID + " " + oldHorizontalID + " " + newVerticalID + " " + newHorizontalID);
+  }
+
+  public void validMoveMsg(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
+    output.println("VALID_MOVE " + oldVerticalID + " " + oldHorizontalID + " " + newVerticalID + " " + newHorizontalID);
+  }
 }

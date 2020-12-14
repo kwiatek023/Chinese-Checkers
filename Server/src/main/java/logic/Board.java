@@ -140,4 +140,9 @@ public class Board extends AbstractBoard {
       }
     }
   }
+
+  public void updatePawns(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
+    pawns[newVerticalID][newHorizontalID] = pawns[oldVerticalID][oldHorizontalID];
+    pawns[oldVerticalID][oldHorizontalID] = null;
+  }
 }
