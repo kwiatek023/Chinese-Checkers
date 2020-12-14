@@ -151,7 +151,30 @@ public class Game {
     }
 
     private void processMoveCommand(String data) {
+      String[] commands = data.split(" ");
+      int oldVerticalID = Integer.parseInt(commands[0]);
+      int oldHorizontalID = Integer.parseInt(commands[1]);
+      int newVerticalID = Integer.parseInt(commands[2]);
+      int newHorizontalID = Integer.parseInt(commands[3]);
 
+      if (currentPlayer == this) {
+        if (controller.validMove(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID)) {
+          board.updatePawns(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
+          indexCurrentPlayer = (indexCurrentPlayer + 1) % noPlayers;
+          currentPlayer = players.get(indexCurrentPlayer);
+          this.protocol.validMoveMsg(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
+
+          for (Player player : players) {
+            if (player != this) {
+              player.protocol.opponentMoved(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
+            }
+          }
+
+          for (Player player : players) {
+            player.protocol.nextTurn(currentPlayer.color);
+          }
+        }
+      }
     }
   }
 }
