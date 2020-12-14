@@ -37,7 +37,10 @@ public class GameController {
         color = new ConcreteColorFactory().getColor(colorName);
 
         drawBoard();
-        client.play();
+
+        new Thread(() -> {
+            client.play();
+        }).start();
     }
 
     private void drawBoard() {
@@ -51,14 +54,14 @@ public class GameController {
         int radius = 20;
         int space = 10;
 
-        for(int i = 0; i < board.getNoRows(); i++) {
+        for (int i = 0; i < board.getNoRows(); i++) {
             double y = (i * (2 * radius + space)) * sqrt(3) / 2 + (radius + space);
 
-            for(int j = 0; j < board.getNoFieldsInRow(i); j++) {
+            for (int j = 0; j < board.getNoFieldsInRow(i); j++) {
                 Field field = board.getField(i, board.getHorizontalConstant(i) + j);
                 int x = (board.getNoIgnoredFields(i) + j) * (2 * radius + space);
 
-                if(i % 2 == 1) {
+                if (i % 2 == 1) {
                     x += (2 * radius + space) / 2;
                 }
 
@@ -68,9 +71,9 @@ public class GameController {
                 field.setFill(Color.GRAY);
 
                 field.setOnMouseClicked(event -> {
-                    if(activePawn != null) {
-                        client.sendMessage("MOVE "+ activePawn.getVerticalID() + " " + activePawn.getHorizontalID() + " "
-                        + field.getVerticalID() + " " + field.getHorizontalID());
+                    if (activePawn != null) {
+                        client.sendMessage("MOVE " + activePawn.getVerticalID() + " " + activePawn.getHorizontalID() + " "
+                                + field.getVerticalID() + " " + field.getHorizontalID());
                     }
                 });
 
@@ -83,12 +86,12 @@ public class GameController {
         int radius = 20;
         int space = 10;
 
-        for(int i = 0; i < board.getNoRows(); i++) {
+        for (int i = 0; i < board.getNoRows(); i++) {
             double y = (i * (2 * radius + space)) * sqrt(3) / 2 + (radius + space);
 
-            for(int j = 0; j < board.getNoFieldsInRow(i); j++) {
+            for (int j = 0; j < board.getNoFieldsInRow(i); j++) {
                 Pawn pawn = board.getPawn(i, board.getHorizontalConstant(i) + j);
-                if(pawn != null) {
+                if (pawn != null) {
                     int x = (board.getNoIgnoredFields(i) + j) * (2 * radius + space);
 
                     if (i % 2 == 1) {
@@ -101,7 +104,7 @@ public class GameController {
                     pawn.setFill(pawn.getColor());
 
                     pawn.setOnMouseClicked(event -> {
-                        if(pawn.getColor().equals(this.color)) {
+                        if (pawn.getColor().equals(this.color)) {
                             activePawn = pawn;
                         }
                     });

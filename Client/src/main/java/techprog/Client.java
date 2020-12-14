@@ -78,6 +78,7 @@ public class Client {
     }
 
     public void play() {
+        System.out.println("Play");
         while(in.hasNextLine()) {
             var response = in.nextLine();
             System.out.println("Response from server: " + response);
@@ -106,5 +107,6 @@ public class Client {
 
     public void sendMessage(String message) {
         out.println(message);
+        System.out.println("Sent to server: " + message);
     }
 }
