@@ -18,4 +18,12 @@ public class Pawn {
   public int getHorizontalID() {
     return horizontalID;
   }
+
+  public void setVerticalID(int verticalID) {
+    this.verticalID = verticalID;
+  }
+
+  public void setHorizontalID(int horizontalID) {
+    this.horizontalID = horizontalID;
+  }
 }
