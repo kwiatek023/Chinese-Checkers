@@ -1,6 +1,7 @@
 package techprog;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -29,6 +30,10 @@ public class App extends Application {
         stage.setScene(scene);
         stage.setTitle("Chinese Checkers");
         stage.show();
+        stage.setOnCloseRequest(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
     }
 
     static void setRoot(String fxml) throws IOException {

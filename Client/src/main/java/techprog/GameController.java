@@ -106,7 +106,7 @@ public class GameController {
                     pawn.setOnMouseClicked(event -> {
                         if (pawn.getColor().equals(this.color)) {
                             activePawn = pawn;
-                            System.out.println("Active pawn IDS: " + activePawn.getVerticalID() + " " + activePawn);
+                            System.out.println("Active pawn IDS: " + activePawn.getVerticalID() + " " + activePawn.getHorizontalID());
                         }
                     });
 
