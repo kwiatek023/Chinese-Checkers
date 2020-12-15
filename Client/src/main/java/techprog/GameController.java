@@ -106,6 +106,7 @@ public class GameController {
                     pawn.setOnMouseClicked(event -> {
                         if (pawn.getColor().equals(this.color)) {
                             activePawn = pawn;
+                            System.out.println("Active pawn IDS: " + activePawn.getVerticalID() + " " + activePawn);
                         }
                     });
 
@@ -127,7 +128,6 @@ public class GameController {
 
         movedPawn.setCenterX(field.getCenterX());
         movedPawn.setCenterY(field.getCenterY());
-
     }
 
     public void updateCurrentPlayer(String nextPlayer) {
