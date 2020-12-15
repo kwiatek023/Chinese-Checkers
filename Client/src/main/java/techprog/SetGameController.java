@@ -1,13 +1,13 @@
 package techprog;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ComboBox;
 
 import java.io.IOException;
 
 public class SetGameController {
-    public TextField variantField;
-    public TextField noPlayersField;
+    public ComboBox<String> variantGame;
+    public ComboBox<String> noPlayers;
     private Client client;
 
     @FXML
@@ -17,7 +17,7 @@ public class SetGameController {
 
     @FXML
     public void sendSettings() throws IOException {
-        client.setGame(variantField.getText(), noPlayersField.getText());
+        client.setGame(variantGame.getSelectionModel().getSelectedItem(), noPlayers.getSelectionModel().getSelectedItem());
         App.setRoot("waiting");
     }
 }
