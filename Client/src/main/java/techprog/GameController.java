@@ -129,4 +129,9 @@ public class GameController {
         movedPawn.setCenterY(field.getCenterY());
 
     }
+
+    public void updateCurrentPlayer(String nextPlayer) {
+        currentPlayer = nextPlayer;
+        turnLabel.setText("Now is " + currentPlayer + "'s turn");
+    }
 }

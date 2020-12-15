@@ -97,6 +97,21 @@ public class Client {
                     });
                     break;
                 }
+                case "OPPONENT_MOVED": {
+                    Platform.runLater(() -> {
+                        int oldVerticalID = Integer.parseInt(commands[1]);
+                        int oldHorizontalID = Integer.parseInt(commands[2]);
+                        int newVerticalID = Integer.parseInt(commands[3]);
+                        int newHorizontalID = Integer.parseInt(commands[4]);
+                        gameController.redrawBoard(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
+                    });
+                }
+                case "NEXT": {
+                    Platform.runLater(() -> {
+                        String nextPlayer = commands[1];
+                        gameController.updateCurrentPlayer(nextPlayer);
+                    });
+                }
             }
         }
     }
