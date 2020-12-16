@@ -12,6 +12,7 @@
     <right>
         <VBox>
             <Label fx:id="colorLabel"/>
+            <Label fx:id="textLabel" text="Now is turn:"/>
             <Label fx:id="turnLabel"/>
         </VBox>
     </right>
