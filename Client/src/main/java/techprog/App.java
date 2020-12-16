@@ -11,7 +11,7 @@ import techprog.client.Client;
 import java.io.IOException;
 
 /**
- * JavaFX techprog.App
+ * JavaFX App
  */
 public class App extends Application {
     private static Scene scene;
