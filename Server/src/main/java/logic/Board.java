@@ -1,7 +1,6 @@
 package logic;
 
 public class Board extends AbstractBoard {
-  private int noPlayers;
 
   public Board(int noPlayers) {
     if (noPlayers < 2 || noPlayers == 5 || noPlayers > 6) {

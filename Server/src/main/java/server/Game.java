@@ -50,6 +50,10 @@ public class Game {
       gameVariant = new ConcreteVariantFactory().getGameVariant(owner.input.nextLine());
     }
 
+    if (gameVariant == null) {
+      throw new IllegalArgumentException();
+    }
+
     if (owner.input.hasNextLine()) {
       noPlayers = Integer.parseInt(owner.input.nextLine());
       board = new Board(noPlayers);
