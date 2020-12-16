@@ -1,4 +1,4 @@
-package techprog;
+package techprog.colorFactory;
 
 import javafx.scene.paint.Color;
 

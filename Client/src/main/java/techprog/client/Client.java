@@ -1,6 +1,8 @@
-package techprog;
+package techprog.client;
 
 import javafx.application.Platform;
+import techprog.GameController;
+import techprog.WaitingController;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,7 +13,7 @@ import java.util.Scanner;
 public class Client {
     private Scanner in;
     private PrintWriter out;
-    private static Client instance = new Client();
+    private static final Client instance = new Client();
     private boolean isOwner = false;
     private WelcomeMessage welcomeMessage;
     private GameController gameController;
@@ -61,7 +63,7 @@ public class Client {
     public void waitForStart() throws IOException {
         if(in.hasNextLine()) {
             var split = in.nextLine().split(" ");
-            welcomeMessage = new WelcomeMessage(split[1], Integer.parseInt(split[2]), split[3]);
+            welcomeMessage = new techprog.client.WelcomeMessage(split[1], Integer.parseInt(split[2]), split[3]);
         }
 
         Platform.runLater(() -> {
@@ -78,7 +80,7 @@ public class Client {
     }
 
     public void play() {
-        System.out.println("Play");
+        System.out.println("Client: started playing");
         while(in.hasNextLine()) {
             var response = in.nextLine();
             System.out.println("Response from server: " + response);
@@ -122,6 +124,6 @@ public class Client {
 
     public void sendMessage(String message) {
         out.println(message);
-        System.out.println("Sent to server: " + message);
+        System.out.println("Client: message sent to server: " + message);
     }
 }
