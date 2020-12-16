@@ -1,6 +1,7 @@
 package techprog;
 
 import javafx.fxml.FXML;
+import techprog.client.Client;
 
 import java.io.IOException;
 

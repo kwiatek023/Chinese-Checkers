@@ -1,19 +1,27 @@
 package techprog;
 
+import techprog.board.Board;
+import techprog.board.Field;
+import techprog.board.Pawn;
+import techprog.colorFactory.ConcreteColorFactory;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-import techprog.Board.Board;
-import techprog.Board.Field;
-import techprog.Board.Pawn;
+import techprog.client.Client;
 
 import static java.lang.Math.sqrt;
 
 public class GameController {
+    @FXML
     public BorderPane boardPane;
+
+    @FXML
     public Label colorLabel;
+
+    @FXML
     public Label turnLabel;
+
     private Client client;
     private Color color;
     private int noPlayers;
@@ -26,21 +34,25 @@ public class GameController {
         client = Client.getInstance();
         client.setGameController(this);
 
-        var welcomeMessage = client.getWelcomeMessage();
-        String colorName = welcomeMessage.getColor();
-        noPlayers = welcomeMessage.getNoPlayers();
-        currentPlayer = welcomeMessage.getFirstPlayer();
-
-        colorLabel.setText("You are " + colorName);
-        turnLabel.setText("Now is " + currentPlayer + "'s turn");
-
-        color = new ConcreteColorFactory().getColor(colorName);
-
+        receiveWelcomeMessage();
         drawBoard();
 
         new Thread(() -> {
             client.play();
         }).start();
+    }
+
+    private void receiveWelcomeMessage() {
+        var welcomeMessage = client.getWelcomeMessage();
+
+        String colorName = welcomeMessage.getColor();
+        colorLabel.setText("You are " + colorName);
+        color = new ConcreteColorFactory().getColor(colorName);
+
+        noPlayers = welcomeMessage.getNoPlayers();
+
+        currentPlayer = welcomeMessage.getFirstPlayer();
+        turnLabel.setText("Now is " + currentPlayer + "'s turn");
     }
 
     private void drawBoard() {

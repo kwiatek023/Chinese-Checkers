@@ -1,4 +1,4 @@
-package techprog;
+package techprog.client;
 
 public class WelcomeMessage {
     private String color;

@@ -9,11 +9,11 @@
     <center>
     </center>
 
-    <left>
+    <right>
         <VBox>
             <Label fx:id="colorLabel"/>
             <Label fx:id="turnLabel"/>
         </VBox>
-    </left>
+    </right>
 
 </BorderPane>

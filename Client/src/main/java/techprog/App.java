@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import techprog.client.Client;
 
 import java.io.IOException;
 
@@ -36,7 +37,7 @@ public class App extends Application {
         });
     }
 
-    static void setRoot(String fxml) throws IOException {
+   static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 

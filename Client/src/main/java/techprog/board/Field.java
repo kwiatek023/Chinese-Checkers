@@ -1,4 +1,4 @@
-package techprog.Board;
+package techprog.board;
 
 import javafx.scene.shape.Circle;
 
