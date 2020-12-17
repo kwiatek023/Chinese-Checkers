@@ -52,7 +52,7 @@ public class GameController {
         noPlayers = welcomeMessage.getNoPlayers();
 
         currentPlayer = welcomeMessage.getFirstPlayer();
-        turnLabel.setText(currentPlayer);
+        turnLabel.setText("Now is " + currentPlayer + "'s turn");
     }
 
     private void drawBoard() {
@@ -117,7 +117,13 @@ public class GameController {
 
                     pawn.setOnMouseClicked(event -> {
                         if (pawn.getColor().equals(this.color)) {
+                            if(activePawn != null) {
+                                resetActivePawn();
+                            }
+
                             activePawn = pawn;
+                            activePawn.setStroke(Color.DARKGREY);
+                            activePawn.setStrokeWidth(5);
                             System.out.println("Active pawn IDS: " + activePawn.getVerticalID() + " " + activePawn.getHorizontalID());
                         }
                     });
@@ -130,6 +136,8 @@ public class GameController {
 
 
     public void resetActivePawn() {
+        this.activePawn.setStroke(Color.BLACK);
+        this.activePawn.setStrokeWidth(1);
         this.activePawn = null;
     }
 
@@ -144,7 +152,7 @@ public class GameController {
 
     public void updateCurrentPlayer(String nextPlayer) {
         currentPlayer = nextPlayer;
-        turnLabel.setText(currentPlayer);
+        turnLabel.setText("Now is " + currentPlayer + "'s turn");
     }
 }
 

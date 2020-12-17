@@ -6,15 +6,11 @@
 
 <BorderPane fx:id="boardPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="techprog.GameController">
-    <center>
-    </center>
-
-    <right>
+    <top>
         <VBox>
             <Label fx:id="colorLabel"/>
-            <Label fx:id="textLabel" text="Now is turn:"/>
             <Label fx:id="turnLabel"/>
         </VBox>
-    </right>
+    </top>
 
 </BorderPane>

@@ -27,7 +27,7 @@ public class App extends Application {
             resource = "waiting";
         }
 
-        scene = new Scene(loadFXML(resource), 1000, 750);
+        scene = new Scene(loadFXML(resource), 1100, 825);
         stage.setScene(scene);
         stage.setTitle("Chinese Checkers");
         stage.show();
