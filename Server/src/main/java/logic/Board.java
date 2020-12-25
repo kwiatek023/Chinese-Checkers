@@ -1,6 +1,10 @@
 package logic;
 
+import java.util.Map;
+import java.util.Set;
+
 public class Board extends AbstractBoard {
+  private Map<String, Set<Point>> colorToDestinationCorner;
 
   public Board(int noPlayers) {
     if (noPlayers < 2 || noPlayers == 5 || noPlayers > 6) {
@@ -12,6 +16,13 @@ public class Board extends AbstractBoard {
     this.noFieldsInRow = createNoFieldsInRow();
     this.horizontalConstant = createHorizontalConstant();
     this.noIgnoredFields = createNoIgnoredFields();
+
+    createUpRightCorner();
+    createUpCorner();
+    createUpLeftCorner();
+    createBottomLeftCorner();
+    createBottomCorner();
+    createBottomRightCorner();
 
     createFields();
     createPawns(noPlayers);
@@ -85,6 +96,7 @@ public class Board extends AbstractBoard {
       }
       noPawnsInRow++;
     }
+    colorToDestinationCorner.put("WHITE", upRightCorner);
   }
 
   private void createBluePawns() {
@@ -95,6 +107,7 @@ public class Board extends AbstractBoard {
         pawns[verticalID][horizontalID] = new Pawn(verticalID, horizontalID, "BLUE");
       }
     }
+    colorToDestinationCorner.put("BLUE", upLeftCorner);
   }
 
   private void createBlackPawns() {
@@ -105,6 +118,7 @@ public class Board extends AbstractBoard {
         pawns[verticalID][horizontalID] = new Pawn(verticalID, horizontalID, "BLACK");
       }
     }
+    colorToDestinationCorner.put("BLACK", bottomLeftCorner);
   }
 
   private void createYellowPawns() {
@@ -117,6 +131,7 @@ public class Board extends AbstractBoard {
       }
       noPawnsInRow--;
     }
+    colorToDestinationCorner.put("YELLOW", bottomRightCorner);
   }
 
   private void createRedPawns() {
@@ -127,8 +142,8 @@ public class Board extends AbstractBoard {
         pawns[verticalID][horizontalID] = new Pawn(verticalID, horizontalID, "RED");
       }
     }
+    colorToDestinationCorner.put("RED", bottomCorner);
   }
-
 
   private void createGreenPawns() {
     for (int i = 13; i < noRows; i++) {
@@ -138,6 +153,8 @@ public class Board extends AbstractBoard {
         pawns[verticalID][horizontalID] = new Pawn(verticalID, horizontalID, "GREEN");
       }
     }
+
+    colorToDestinationCorner.put("GREEN", upCorner);
   }
 
   public void updatePawns(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
@@ -146,5 +163,69 @@ public class Board extends AbstractBoard {
 
     pawns[newVerticalID][newHorizontalID].setVerticalID(newVerticalID);
     pawns[newVerticalID][newHorizontalID].setHorizontalID(newHorizontalID);
+  }
+
+  private void createUpLeftCorner() {
+    int noFieldsInRow = 4;
+    for (int i = 4; i < 8; i++) {
+      for (int j = 0; j < noFieldsInRow; j++) {
+        int verticalID = i;
+        int horizontalID = horizontalConstant[i] + j;
+        upLeftCorner.add(new Point(verticalID, horizontalID));
+      }
+      noFieldsInRow--;
+    }
+  }
+
+  private void createUpCorner() {
+    for (int i = 0; i < 4; i++) {
+      for (int j = 0; j < noFieldsInRow[i]; j++) {
+        int verticalID = i;
+        int horizontalID = horizontalConstant[i] + j;
+        upCorner.add(new Point(verticalID, horizontalID));
+      }
+    }
+  }
+
+  private void createUpRightCorner() {
+    for (int i = 4; i < 8; i++) {
+      for (int j = 9; j < noFieldsInRow[i]; j++) {
+        int verticalID = i;
+        int horizontalID = horizontalConstant[i] + j;
+        upRightCorner.add(new Point(verticalID, horizontalID));
+      }
+    }
+  }
+
+  private void createBottomRightCorner() {
+    for (int i = 9; i < 13; i++) {
+      for (int j = 9; j < noFieldsInRow[i]; j++) {
+        int verticalID = i;
+        int horizontalID = horizontalConstant[i] + j;
+        bottomRightCorner.add(new Point(verticalID, horizontalID));
+      }
+    }
+  }
+
+  private void createBottomCorner() {
+    for (int i = 13; i < noRows; i++) {
+      for (int j = 0; j < noFieldsInRow[i]; j++) {
+        int verticalID = i;
+        int horizontalID = horizontalConstant[i] + j;
+        bottomCorner.add(new Point(verticalID, horizontalID));
+      }
+    }
+  }
+
+  private void createBottomLeftCorner() {
+    int noFieldsInRow = 1;
+    for (int i = 9; i < 13; i++) {
+      for (int j = 0; j < noFieldsInRow; j++) {
+        int verticalID = i;
+        int horizontalID = horizontalConstant[i] + j;
+        bottomLeftCorner.add(new Point(verticalID, horizontalID));
+      }
+      noFieldsInRow++;
+    }
   }
 }

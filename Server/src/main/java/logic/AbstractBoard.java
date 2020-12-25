@@ -1,5 +1,7 @@
 package logic;
 
+import java.util.Set;
+
 public class AbstractBoard {
   int noPlayers;
   int noRows;
@@ -8,6 +10,12 @@ public class AbstractBoard {
   int[] noIgnoredFields;
   Field[][] fields;
   Pawn[][] pawns;
+  Set<Point> upRightCorner;
+  Set<Point> upCorner;
+  Set<Point> upLeftCorner;
+  Set<Point> bottomRightCorner;
+  Set<Point> bottomCorner;
+  Set<Point> bottomLeftCorner;
 
   public int getNoPlayers() {
     return noPlayers;
