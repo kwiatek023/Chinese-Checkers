@@ -1,5 +1,6 @@
 package gameVariants;
 
+import logic.Pawn;
 import logic.Point;
 
 import java.util.Set;
@@ -26,15 +27,24 @@ public class BasicGameVariant extends GameVariant {
             || bottomRight(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
   }
 
+  @Override
+  public boolean hasFinished(String pawnColor) {
+    Set<Point> destinationCorner = board.getDestinationCorner(pawnColor);
+
+    for (Point point : destinationCorner) {
+      Pawn pawn = board.getPawn(point.getVerticalID(), point.getHorizontalID());
+
+      if (pawn == null || !pawn.getColor().equals(pawnColor)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   private boolean isInDestinationCorner(String pawnColor, int verticalID, int horizontalID) {
     Set<Point> destinationCorner = board.getDestinationCorner(pawnColor);
 
-    System.out.println(pawnColor);
-    for (Point p: destinationCorner) {
-      System.out.println(p.getVerticalID() + " " + p.getHorizontalID());
-    }
-
-    System.out.println("Szukane: " + verticalID + " " + horizontalID);
     return destinationCorner.contains(new Point(verticalID, horizontalID));
   }
 

@@ -7,6 +7,7 @@ public abstract class GameVariant {
   protected boolean blockAllowed;
 
   public abstract boolean isValidMove(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID);
+  public abstract boolean hasFinished(String pawnColor);
 
   public void setBoard(AbstractBoard board) {
     this.board = board;

@@ -22,8 +22,8 @@ public class Protocol {
     output.println("NEXT " + color);
   }
 
-  public void endGame(String color) {
-    output.println("END " + color);
+  public void endGame() {
+    output.println("END");
   }
 
   public void opponentMoved(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
@@ -32,5 +32,9 @@ public class Protocol {
 
   public void validMoveMsg(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
     output.println("VALID_MOVE " + oldVerticalID + " " + oldHorizontalID + " " + newVerticalID + " " + newHorizontalID);
+  }
+
+  public void hasFinished(String color) {
+    output.println("HAS_FINISHED " + color);
   }
 }
