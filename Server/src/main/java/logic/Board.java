@@ -2,12 +2,8 @@ package logic;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public class Board extends AbstractBoard {
-  private Map<String, Set<Point>> colorToDestinationCorner;
-
   public Board(int noPlayers) {
     if (noPlayers < 2 || noPlayers == 5 || noPlayers > 6) {
       throw new IllegalArgumentException("Invalid number of players.");

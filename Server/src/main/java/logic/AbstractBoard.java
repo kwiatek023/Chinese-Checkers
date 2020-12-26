@@ -1,5 +1,6 @@
 package logic;
 
+import java.util.Map;
 import java.util.Set;
 
 public class AbstractBoard {
@@ -16,6 +17,8 @@ public class AbstractBoard {
   Set<Point> bottomRightCorner;
   Set<Point> bottomCorner;
   Set<Point> bottomLeftCorner;
+  Map<String, Set<Point>> colorToDestinationCorner;
+
 
   public int getNoPlayers() {
     return noPlayers;
@@ -51,5 +54,9 @@ public class AbstractBoard {
 
   public int getNoIgnoredFields(int noRow) {
     return noIgnoredFields[noRow];
+  }
+
+  public Set<Point> getDestinationCorner(String pawnColor) {
+    return colorToDestinationCorner.get(pawnColor);
   }
 }

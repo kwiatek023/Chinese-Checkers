@@ -26,4 +26,8 @@ public class Pawn {
   public void setHorizontalID(int horizontalID) {
     this.horizontalID = horizontalID;
   }
+
+  public String getColor() {
+    return color;
+  }
 }
