@@ -1,5 +1,7 @@
 package logic;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,6 +26,7 @@ public class Board extends AbstractBoard {
     createBottomCorner();
     createBottomRightCorner();
 
+    this.colorToDestinationCorner = new HashMap<>();
     createFields();
     createPawns(noPlayers);
   }
@@ -166,6 +169,8 @@ public class Board extends AbstractBoard {
   }
 
   private void createUpLeftCorner() {
+    upLeftCorner = new HashSet<>();
+
     int noFieldsInRow = 4;
     for (int i = 4; i < 8; i++) {
       for (int j = 0; j < noFieldsInRow; j++) {
@@ -178,6 +183,8 @@ public class Board extends AbstractBoard {
   }
 
   private void createUpCorner() {
+    upCorner = new HashSet<>();
+
     for (int i = 0; i < 4; i++) {
       for (int j = 0; j < noFieldsInRow[i]; j++) {
         int verticalID = i;
@@ -188,6 +195,8 @@ public class Board extends AbstractBoard {
   }
 
   private void createUpRightCorner() {
+    upRightCorner = new HashSet<>();
+
     for (int i = 4; i < 8; i++) {
       for (int j = 9; j < noFieldsInRow[i]; j++) {
         int verticalID = i;
@@ -198,6 +207,8 @@ public class Board extends AbstractBoard {
   }
 
   private void createBottomRightCorner() {
+    bottomRightCorner = new HashSet<>();
+
     for (int i = 9; i < 13; i++) {
       for (int j = 9; j < noFieldsInRow[i]; j++) {
         int verticalID = i;
@@ -208,6 +219,8 @@ public class Board extends AbstractBoard {
   }
 
   private void createBottomCorner() {
+    bottomCorner = new HashSet<>();
+
     for (int i = 13; i < noRows; i++) {
       for (int j = 0; j < noFieldsInRow[i]; j++) {
         int verticalID = i;
@@ -218,6 +231,8 @@ public class Board extends AbstractBoard {
   }
 
   private void createBottomLeftCorner() {
+    bottomLeftCorner = new HashSet<>();
+
     int noFieldsInRow = 1;
     for (int i = 9; i < 13; i++) {
       for (int j = 0; j < noFieldsInRow; j++) {
