@@ -16,6 +16,7 @@ public class Game {
   private int noConnectedPlayers;
   private List<String> colors = new ArrayList<>(Arrays.asList("GREEN"));
   private int noPlayers;
+  private int noPlayersInGame;
   private List<Player> players;
   private Board board;
   private GameVariant gameVariant;
@@ -54,6 +55,7 @@ public class Game {
 
     if (owner.input.hasNextLine()) {
       noPlayers = Integer.parseInt(owner.input.nextLine());
+      noPlayersInGame = noPlayers;
       board = new Board(noPlayers);
       gameVariant.setBoard(board);
     }
@@ -76,6 +78,13 @@ public class Game {
   private void makeQueue() {
     indexCurrentPlayer = new Random().nextInt(noPlayers);
     currentPlayer = players.get(indexCurrentPlayer);
+  }
+
+  private void updateQueue() {
+    do {
+      indexCurrentPlayer = (indexCurrentPlayer + 1) % noPlayers;
+      currentPlayer = players.get(indexCurrentPlayer);
+    } while (currentPlayer.hasFinished);
   }
 
   private void matchColors(int noPlayers) {
@@ -106,7 +115,6 @@ public class Game {
     }
   }
 
-
   private void runPlayers() {
     var pool = Executors.newFixedThreadPool(6);
 
@@ -120,6 +128,7 @@ public class Game {
     private PrintWriter output = null;
     private Socket socket;
     private String color;
+    private boolean hasFinished = false;
     Protocol protocol;
 
     public Player(Socket socket, String color) {
@@ -162,8 +171,6 @@ public class Game {
       if (currentPlayer == this) {
         if (gameVariant.isValidMove(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID)) {
           board.updatePawns(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
-          indexCurrentPlayer = (indexCurrentPlayer + 1) % noPlayers;
-          currentPlayer = players.get(indexCurrentPlayer);
           this.protocol.validMoveMsg(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
 
           for (Player player : players) {
@@ -172,8 +179,25 @@ public class Game {
             }
           }
 
-          for (Player player : players) {
-            player.protocol.nextTurn(currentPlayer.color);
+          if (gameVariant.hasFinished(currentPlayer.color)) {
+            hasFinished = true;
+            noPlayersInGame--;
+
+            for (Player player : players) {
+              player.protocol.hasFinished(currentPlayer.color);
+            }
+          }
+
+          if (noPlayersInGame > 0) {
+            updateQueue();
+
+            for (Player player : players) {
+              player.protocol.nextTurn(currentPlayer.color);
+            }
+          } else {
+            for (Player player : players) {
+              player.protocol.endGame();
+            }
           }
         }
       }
