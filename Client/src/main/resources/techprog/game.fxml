@@ -3,14 +3,18 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
-
+<?import java.net.URL?>
 <BorderPane fx:id="boardPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="techprog.GameController">
-    <top>
+    <left>
         <VBox>
             <Label fx:id="colorLabel"/>
             <Label fx:id="turnLabel"/>
         </VBox>
-    </top>
+    </left>
+
+    <stylesheets>
+        <URL value="@game.css"/>
+    </stylesheets>
 
 </BorderPane>
