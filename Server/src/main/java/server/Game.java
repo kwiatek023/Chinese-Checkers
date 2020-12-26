@@ -3,7 +3,6 @@ package server;
 import gameVariants.ConcreteVariantFactory;
 import gameVariants.GameVariant;
 import logic.Board;
-import logic.MoveController;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,7 +18,7 @@ public class Game {
   private int noPlayers;
   private List<Player> players;
   private Board board;
-  private MoveController controller;
+  private GameVariant gameVariant;
   private int indexCurrentPlayer;
   private Player currentPlayer;
 
@@ -39,7 +38,6 @@ public class Game {
   }
 
   private void start() throws IOException {
-    GameVariant gameVariant = null;
     Player owner = new Player(socket.accept(), colors.get(0));
     players.add(owner);
     noConnectedPlayers = 1;
@@ -57,8 +55,7 @@ public class Game {
     if (owner.input.hasNextLine()) {
       noPlayers = Integer.parseInt(owner.input.nextLine());
       board = new Board(noPlayers);
-      controller = new MoveController(board, gameVariant);
-
+      gameVariant.setBoard(board);
     }
 
     matchColors(noPlayers);
@@ -163,7 +160,7 @@ public class Game {
       int newHorizontalID = Integer.parseInt(commands[3]);
 
       if (currentPlayer == this) {
-        if (controller.validMove(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID)) {
+        if (gameVariant.isValidMove(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID)) {
           board.updatePawns(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
           indexCurrentPlayer = (indexCurrentPlayer + 1) % noPlayers;
           currentPlayer = players.get(indexCurrentPlayer);
