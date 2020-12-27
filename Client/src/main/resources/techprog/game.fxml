@@ -10,6 +10,7 @@
         <VBox>
             <Label fx:id="colorLabel"/>
             <Label fx:id="turnLabel"/>
+            <Label fx:id="rankingLabel"/>
         </VBox>
     </left>
 
