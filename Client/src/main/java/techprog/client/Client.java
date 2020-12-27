@@ -107,12 +107,34 @@ public class Client {
                         int newHorizontalID = Integer.parseInt(commands[4]);
                         gameController.redrawBoard(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
                     });
+                    break;
                 }
                 case "NEXT": {
                     Platform.runLater(() -> {
                         String nextPlayer = commands[1];
                         gameController.updateCurrentPlayer(nextPlayer);
                     });
+                    break;
+                }
+                case "HAS_FINISHED": {
+                    Platform.runLater(() -> {
+                        String player = commands[1];
+                        gameController.updateRanking(player);
+                    });
+                    break;
+                }
+                case "END": {
+                    Platform.runLater(() -> {
+                        gameController.endGame();
+                    });
+                    break;
+                }
+                case "RAGE_QUIT": {
+                    Platform.runLater(() -> {
+                        String player = commands[1];
+                        gameController.rageQuit(player);
+                    });
+                    break;
                 }
             }
         }

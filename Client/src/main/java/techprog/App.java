@@ -21,7 +21,7 @@ public class App extends Application {
         Client client = Client.getInstance();
 
         String resource;
-        if(client.isOwner()) {
+        if (client.isOwner()) {
             resource= "setGame";
         } else {
             resource = "waiting";
@@ -32,6 +32,7 @@ public class App extends Application {
         stage.setTitle("Chinese Checkers");
         stage.show();
         stage.setOnCloseRequest(e -> {
+            client.sendMessage("QUIT");
             Platform.exit();
             System.exit(0);
         });

@@ -1,5 +1,8 @@
 package techprog;
 
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import techprog.board.Board;
 import techprog.board.Field;
 import techprog.board.Pawn;
@@ -9,6 +12,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import techprog.client.Client;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Math.sqrt;
 
@@ -22,12 +28,16 @@ public class GameController {
     @FXML
     public Label turnLabel;
 
+    @FXML
+    public Label rankingLabel;
+
     private Client client;
     private Color color;
     private int noPlayers;
     private String currentPlayer;
     private Board board;
     private Pawn activePawn = null;
+    private List<String> ranking;
 
     @FXML
     public void initialize() {
@@ -36,6 +46,7 @@ public class GameController {
 
         receiveWelcomeMessage();
         drawBoard();
+        createRanking();
 
         new Thread(() -> {
             client.play();
@@ -134,6 +145,11 @@ public class GameController {
         }
     }
 
+    private void createRanking() {
+        ranking = new ArrayList<>();
+        rankingLabel.setText("Ranking");
+        rankingLabel.setVisible(false);
+    }
 
     public void resetActivePawn() {
         this.activePawn.setStroke(Color.BLACK);
@@ -153,6 +169,37 @@ public class GameController {
     public void updateCurrentPlayer(String nextPlayer) {
         currentPlayer = nextPlayer;
         turnLabel.setText("Now is " + currentPlayer + "'s turn");
+    }
+
+    public void updateRanking(String player) {
+        ranking.add(player);
+        rankingLabel.setText(rankingLabel.getText() + "\n" + ranking.size() + ". " + player);
+        rankingLabel.setVisible(true);
+    }
+
+    public void endGame() {
+        endGameAlert("All players have finished. Congratulation!");
+    }
+
+    public void rageQuit(String player) {
+        endGameAlert("Rage quit :( " + player + " has gone");
+    }
+
+    private void endGameAlert(String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("The end of the game");
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.setOnCloseRequest(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.OK) {
+            Platform.exit();
+            System.exit(0);
+        }
     }
 }
 

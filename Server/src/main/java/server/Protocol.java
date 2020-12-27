@@ -37,4 +37,8 @@ public class Protocol {
   public void hasFinished(String color) {
     output.println("HAS_FINISHED " + color);
   }
+
+  public void rageQuit(String color) {
+    output.println("RAGE_QUIT " + color);
+  }
 }
