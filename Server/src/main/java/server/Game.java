@@ -148,17 +148,24 @@ public class Game {
     public void run() {
       protocol.welcome(color, noPlayers, currentPlayer.color);
       processCommands();
+
+      try {
+        socket.close();
+      } catch (IOException e) {
+      }
     }
 
     private void processCommands() {
       while (input.hasNextLine()) {
         var command = input.nextLine();
-        if (command.startsWith("QUIT")) {
+        if (command.startsWith("RAGE_QUIT")) {
           for (Player player : players) {
             if (player != this) {
               player.protocol.rageQuit(this.color);
             }
           }
+          return;
+        } else if (command.startsWith("QUIT")) {
           return;
         } else if (command.startsWith("MOVE")) {
           processMoveCommand(command.substring(5));

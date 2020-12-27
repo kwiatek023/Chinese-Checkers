@@ -1,17 +1,16 @@
 package techprog;
 
-import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import techprog.board.Board;
-import techprog.board.Field;
-import techprog.board.Pawn;
-import techprog.colorFactory.ConcreteColorFactory;
-import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import techprog.board.Board;
+import techprog.board.Field;
+import techprog.board.Pawn;
 import techprog.client.Client;
+import techprog.colorFactory.ConcreteColorFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -191,14 +190,13 @@ public class GameController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.setOnCloseRequest(e -> {
-            Platform.exit();
-            System.exit(0);
+            client.closeConnection();
         });
+
         alert.showAndWait();
 
         if (alert.getResult() == ButtonType.OK) {
-            Platform.exit();
-            System.exit(0);
+            client.closeConnection();
         }
     }
 }
