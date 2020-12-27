@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class Client {
+    private Socket socket;
     private Scanner in;
     private PrintWriter out;
     private static final Client instance = new Client();
@@ -30,7 +31,7 @@ public class Client {
 
     private void initSocket() {
         try {
-            Socket socket = new Socket("localhost", 3333);
+            socket = new Socket("localhost", 3333);
             in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream(), true);
         } catch (UnknownHostException e) {
@@ -81,6 +82,7 @@ public class Client {
 
     public void play() {
         System.out.println("Client: started playing");
+
         while(in.hasNextLine()) {
             var response = in.nextLine();
             System.out.println("Response from server: " + response);
@@ -147,5 +149,18 @@ public class Client {
     public void sendMessage(String message) {
         out.println(message);
         System.out.println("Client: message sent to server: " + message);
+    }
+
+    public void closeConnection() {
+        sendMessage("QUIT");
+
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Platform.exit();
+        System.exit(0);
     }
 }

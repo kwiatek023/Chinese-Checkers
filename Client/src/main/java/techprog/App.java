@@ -32,7 +32,8 @@ public class App extends Application {
         stage.setTitle("Chinese Checkers");
         stage.show();
         stage.setOnCloseRequest(e -> {
-            client.sendMessage("QUIT");
+            client.sendMessage("RAGE_QUIT");
+            client.closeConnection();
             Platform.exit();
             System.exit(0);
         });
