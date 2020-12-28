@@ -11,6 +11,14 @@ public class Pawn {
     this.color = color;
   }
 
+  public int getVerticalID() {
+    return verticalID;
+  }
+
+  public int getHorizontalID() {
+    return horizontalID;
+  }
+
   public void setVerticalID(int verticalID) {
     this.verticalID = verticalID;
   }

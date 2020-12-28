@@ -6,6 +6,13 @@ import logic.Point;
 import java.util.Set;
 
 public class BasicGameVariant extends GameVariant {
+  /** This method checks if move is correct.
+   * @param oldVerticalID old vertical ID of a pawn
+   * @param oldHorizontalID old horizontal ID of a pawn
+   * @param newVerticalID new vertical ID of a pawn
+   * @param newHorizontalID new horizontal ID of a pawn
+   * @return true if move is correct, false otherwise
+   */
   @Override
   public boolean isValidMove(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
     String pawnColor = board.getPawn(oldVerticalID, oldHorizontalID).getColor();
@@ -23,6 +30,10 @@ public class BasicGameVariant extends GameVariant {
         || bottomRight(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
   }
 
+  /**
+   * @param pawnColor
+   * @return
+   */
   @Override
   public boolean hasFinished(String pawnColor) {
     Set<Point> destinationCorner = board.getDestinationCorner(pawnColor);
