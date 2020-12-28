@@ -3,12 +3,18 @@ package logic;
 import java.util.Map;
 import java.util.Set;
 
-public class AbstractBoard {
+/**
+ * A template of the game board.
+ * Contains information about board's properties.
+ */
+public abstract class AbstractBoard {
   protected int noPlayers;
   protected int noRows;
   protected int[] noFieldsInRow;
+  /**
+   * Number of fields in every row to omit in order to simplify move validation.
+   */
   protected int[] horizontalConstant;
-  protected int[] noIgnoredFields;
   protected Pawn[][] pawns;
   protected Set<Point> upRightCorner;
   protected Set<Point> upCorner;
@@ -29,7 +35,7 @@ public class AbstractBoard {
 
   /** Player's destination corner getter
    * @param pawnColor Player's color
-   * @return Set of points, which belong to destination corner
+   * @return Set of points, which belongs to destination corner
    */
   public Set<Point> getDestinationCorner(String pawnColor) {
     return colorToDestinationCorner.get(pawnColor);

@@ -2,6 +2,9 @@ package server;
 
 import java.io.PrintWriter;
 
+/**
+ * Class responsible for communication between server and client.
+ */
 public class Protocol {
   private final PrintWriter output;
 

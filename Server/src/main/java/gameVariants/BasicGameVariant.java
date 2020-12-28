@@ -5,13 +5,17 @@ import logic.Point;
 
 import java.util.Set;
 
+/**
+ * Defines basic rules of the game. See also {@link GameVariant}.
+ */
 public class BasicGameVariant extends GameVariant {
-  /** This method checks if move is correct.
-   * @param oldVerticalID old vertical ID of a pawn
+  /** Following moves are allowed: jump to the neighbouring, free field or jump over other pawn if possible.
+   * See also {@link GameVariant}.
+   * @param oldVerticalID   old vertical ID of a pawn
    * @param oldHorizontalID old horizontal ID of a pawn
-   * @param newVerticalID new vertical ID of a pawn
+   * @param newVerticalID   new vertical ID of a pawn
    * @param newHorizontalID new horizontal ID of a pawn
-   * @return true if move is correct, false otherwise
+   * @return
    */
   @Override
   public boolean isValidMove(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
@@ -31,8 +35,8 @@ public class BasicGameVariant extends GameVariant {
   }
 
   /**
-   * @param pawnColor
-   * @return
+   * @param pawnColor color of player
+   * @return true if all pawns of player reached the destination corner, false otherwise.
    */
   @Override
   public boolean hasFinished(String pawnColor) {
