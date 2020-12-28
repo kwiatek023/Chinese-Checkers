@@ -4,12 +4,14 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
+<?import javafx.scene.control.Button?>
 <BorderPane fx:id="boardPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="techprog.GameController">
     <left>
         <VBox>
             <Label fx:id="colorLabel"/>
             <Label fx:id="turnLabel"/>
+            <Button fx:id="endTurnButton" text="End turn" onAction="#endTurn" />
             <Label fx:id="rankingLabel"/>
         </VBox>
     </left>
