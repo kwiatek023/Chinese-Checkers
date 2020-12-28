@@ -11,7 +11,7 @@ import techprog.client.Client;
 import java.io.IOException;
 
 /**
- * JavaFX App
+ * JavaFX App - Chinese Checkers
  */
 public class App extends Application {
     private static Scene scene;
