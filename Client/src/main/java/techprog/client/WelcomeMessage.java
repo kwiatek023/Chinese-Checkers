@@ -1,9 +1,9 @@
 package techprog.client;
 
 public class WelcomeMessage {
-    private String color;
-    private int noPlayers;
-    private String firstPlayer;
+    private final String color;
+    private final int noPlayers;
+    private final String firstPlayer;
 
     public WelcomeMessage(String color, int noPlayers, String firstPlayer) {
         this.color = color;

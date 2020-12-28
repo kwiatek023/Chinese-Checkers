@@ -4,8 +4,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class Field extends Circle {
-    private int verticalID;
-    private int horizontalID;
+    private final int verticalID;
+    private final int horizontalID;
 
     Field(int verticalID, int horizontalID) {
         this.verticalID = verticalID;

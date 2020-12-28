@@ -9,7 +9,7 @@ public class WaitingController {
     private Client client;
 
     @FXML
-    public void initialize() throws IOException {
+    public void initialize() {
         client = Client.getInstance();
         client.setWaitingController(this);
 

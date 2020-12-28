@@ -1,6 +1,5 @@
 package techprog;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -48,9 +47,7 @@ public class GameController {
         drawBoard();
         createRanking();
 
-        new Thread(() -> {
-            client.play();
-        }).start();
+        new Thread(() -> client.play()).start();
     }
 
     private void receiveWelcomeMessage() {
@@ -69,14 +66,15 @@ public class GameController {
     private void drawBoard() {
         board = new Board(noPlayers);
         boardPane.setCenter(board);
-        drawFields();
-        drawPawns();
-    }
 
-    private void drawFields() {
         int radius = 20;
         int space = 10;
 
+        drawFields(radius, space);
+        drawPawns(radius, space);
+    }
+
+    private void drawFields(int radius, int space) {
         for (int i = 0; i < board.getNoRows(); i++) {
             double y = (i * (2 * radius + space)) * sqrt(3) / 2 + (radius + space);
 
@@ -105,10 +103,7 @@ public class GameController {
         }
     }
 
-    private void drawPawns() {
-        int radius = 20;
-        int space = 10;
-
+    private void drawPawns(int radius, int space) {
         for (int i = 0; i < board.getNoRows(); i++) {
             double y = (i * (2 * radius + space)) * sqrt(3) / 2 + (radius + space);
 
@@ -128,7 +123,7 @@ public class GameController {
 
                     pawn.setOnMouseClicked(event -> {
                         if (pawn.getColor().equals(this.color)) {
-                            if(activePawn != null) {
+                            if (activePawn != null) {
                                 resetActivePawn();
                             }
 
@@ -190,9 +185,7 @@ public class GameController {
         alert.setTitle("The end of the game");
         alert.setHeaderText(null);
         alert.setContentText(content);
-        alert.setOnCloseRequest(e -> {
-            client.closeConnection();
-        });
+        alert.setOnCloseRequest(e -> client.closeConnection());
 
         alert.showAndWait();
 
@@ -201,7 +194,7 @@ public class GameController {
         }
     }
 
-    public void endTurn(ActionEvent actionEvent) {
+    public void endTurn() {
         client.sendMessage("END_TURN");
     }
 }

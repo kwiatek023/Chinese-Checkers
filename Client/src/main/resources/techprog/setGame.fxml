@@ -16,7 +16,7 @@
             </items>
         </ComboBox>
         <Label text="Enter number of players:" />
-        <ComboBox fx:id="noPlayers" promptText="Number Of Players">
+        <ComboBox fx:id="noPlayers" promptText="Number of players">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="2" />
