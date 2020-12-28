@@ -11,6 +11,9 @@ import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.Executors;
 
+/**
+ * Class that corresponds to the technical aspects of the game.
+ */
 public class Game {
   private final ServerSocket socket;
   private final List<String> colors = new ArrayList<>(Arrays.asList("GREEN"));
@@ -135,12 +138,15 @@ public class Game {
     }
   }
 
+  /**
+   * Class that defines lifecycle of a player in a game.
+   */
   class Player implements Runnable {
     private Scanner input = null;
     private final Socket socket;
     private final String color;
     private boolean hasFinished = false;
-    Protocol protocol;
+    private Protocol protocol;
 
     public Player(Socket socket, String color) {
       this.socket = socket;
@@ -155,6 +161,9 @@ public class Game {
       }
     }
 
+    /**
+     * Initiates communication with client, and then handles commands from client.
+     */
     @Override
     public void run() {
       protocol.welcome(color, noPlayers, currentPlayer.color);

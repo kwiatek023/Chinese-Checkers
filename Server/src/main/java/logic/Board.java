@@ -3,6 +3,12 @@ package logic;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * Concrete game board that handles 2, 3, 4 or 6 players.
+ * The board can consist of pawns in following colors:
+ * blue, black, yellow, green, red, white.
+ * The board consists of 17 rows and maximally 13 fields.
+ */
 public class Board extends AbstractBoard {
   public Board(int noPlayers) {
     if (noPlayers < 2 || noPlayers == 5 || noPlayers > 6) {
@@ -13,7 +19,6 @@ public class Board extends AbstractBoard {
     noRows = 17;
     this.noFieldsInRow = createNoFieldsInRow();
     this.horizontalConstant = createHorizontalConstant();
-    this.noIgnoredFields = createNoIgnoredFields();
 
     createUpRightCorner();
     createUpCorner();
@@ -32,10 +37,6 @@ public class Board extends AbstractBoard {
 
   private int[] createHorizontalConstant() {
     return new int[]{4, 4, 4, 4, 0, 1, 2, 3, 4, 4, 4, 4, 4, 9, 10, 11, 12};
-  }
-
-  private int[] createNoIgnoredFields() {
-    return new int[]{6, 5, 5, 4, 0, 0, 1, 1, 2, 1, 1, 0, 0, 4, 5, 5, 6};
   }
 
   private void createPawns(int noPlayers) {
