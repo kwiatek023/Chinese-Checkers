@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.ServerSocket;
 
 public class Server {
-  private ServerSocket server;
+  private final ServerSocket server;
 
   public Server() throws IOException {
     server = new ServerSocket(3333);

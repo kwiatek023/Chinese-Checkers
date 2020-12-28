@@ -3,8 +3,8 @@ package logic;
 import java.util.Objects;
 
 public class Point {
-  private int verticalID;
-  private int horizontalID;
+  private final int verticalID;
+  private final int horizontalID;
 
   public Point(int verticalID, int horizontalID) {
     this.verticalID = verticalID;

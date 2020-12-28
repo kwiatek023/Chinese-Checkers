@@ -3,7 +3,7 @@ package server;
 import java.io.PrintWriter;
 
 public class Protocol {
-  PrintWriter output;
+  private final PrintWriter output;
 
   public Protocol(PrintWriter printWriter) {
     this.output = printWriter;
@@ -47,6 +47,6 @@ public class Protocol {
 
   public void rageQuit(String color) {
     output.println("RAGE_QUIT " + color);
-    System.out.printf("Rage quit message sent.");
+    System.out.println("Rage quit message sent.");
   }
 }

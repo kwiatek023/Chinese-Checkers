@@ -12,17 +12,15 @@ import java.util.*;
 import java.util.concurrent.Executors;
 
 public class Game {
-  private ServerSocket socket;
-  private int noConnectedPlayers;
-  private List<String> colors = new ArrayList<>(Arrays.asList("GREEN"));
+  private final ServerSocket socket;
+  private final List<String> colors = new ArrayList<>(Arrays.asList("GREEN"));
   private int noPlayers;
   private int noPlayersInGame;
-  private List<Player> players;
+  private final List<Player> players;
   private Board board;
   private GameVariant gameVariant;
   private int indexCurrentPlayer;
   private Player currentPlayer;
-
 
   public Game(ServerSocket socket) {
     this.socket = socket;
@@ -30,7 +28,7 @@ public class Game {
     try {
       start();
     } catch (IOException e) {
-
+      System.out.println("Something went wrong.");
     }
   }
 
@@ -42,7 +40,6 @@ public class Game {
     System.out.println("Adding owner.");
     Player owner = new Player(socket.accept(), colors.get(0));
     players.add(owner);
-    noConnectedPlayers = 1;
     System.out.println("Owner connected.");
 
     owner.protocol.sendHandshake("OWNER");
@@ -71,6 +68,8 @@ public class Game {
   }
 
   private void connectWithOtherPlayers() throws IOException {
+    int noConnectedPlayers = 1;
+
     while (noConnectedPlayers < noPlayers) {
       System.out.println("Waiting for players nr. " + noConnectedPlayers + 1);
       var player = new Player(socket.accept(), colors.get(noConnectedPlayers));
@@ -107,28 +106,24 @@ public class Game {
 
   private void matchColors(int noPlayers) {
     switch (noPlayers) {
-      case 2: {
+      case 2 -> {
         colors.add("RED");
-        break;
       }
-      case 3: {
+      case 3 -> {
         colors.add("YELLOW");
         colors.add("BLACK");
-        break;
       }
-      case 4: {
+      case 4 -> {
         colors.add("YELLOW");
         colors.add("RED");
         colors.add("BLUE");
-        break;
       }
-      case 6: {
+      case 6 -> {
         colors.add("WHITE");
         colors.add("YELLOW");
         colors.add("RED");
         colors.add("BLACK");
         colors.add("BLUE");
-        break;
       }
     }
   }
@@ -143,9 +138,8 @@ public class Game {
 
   class Player implements Runnable {
     private Scanner input = null;
-    private PrintWriter output = null;
-    private Socket socket;
-    private String color;
+    private final Socket socket;
+    private final String color;
     private boolean hasFinished = false;
     Protocol protocol;
 
@@ -155,7 +149,7 @@ public class Game {
 
       try {
         input = new Scanner(socket.getInputStream());
-        output = new PrintWriter(socket.getOutputStream(), true);
+        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
         protocol = new Protocol(output);
       } catch (IOException e) {
         System.out.println("Game: error occurred while creating new player.");
@@ -170,6 +164,7 @@ public class Game {
       try {
         socket.close();
       } catch (IOException e) {
+        System.out.println("Something went wrong.");
       }
     }
 
