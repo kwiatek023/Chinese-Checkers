@@ -1,8 +1,8 @@
 package logic;
 
 public class Field {
-  private int verticalID;
-  private int horizontalID;
+  private final int verticalID;
+  private final int horizontalID;
 
   Field(int verticalID, int horizontalID) {
     this.verticalID = verticalID;
