@@ -39,13 +39,16 @@ public class Game {
   }
 
   private void start() throws IOException {
+    System.out.println("Adding owner.");
     Player owner = new Player(socket.accept(), colors.get(0));
     players.add(owner);
     noConnectedPlayers = 1;
+    System.out.println("Owner connected.");
 
     owner.protocol.sendHandshake("OWNER");
 
     if (owner.input.hasNextLine()) {
+      System.out.println("Create game variant.");
       gameVariant = new ConcreteVariantFactory().getGameVariant(owner.input.nextLine());
     }
 
@@ -54,6 +57,7 @@ public class Game {
     }
 
     if (owner.input.hasNextLine()) {
+      System.out.println("Create board.");
       noPlayers = Integer.parseInt(owner.input.nextLine());
       noPlayersInGame = noPlayers;
       board = new Board(noPlayers);
@@ -68,7 +72,9 @@ public class Game {
 
   private void connectWithOtherPlayers() throws IOException {
     while (noConnectedPlayers < noPlayers) {
+      System.out.println("Waiting for players nr. " + noConnectedPlayers + 1);
       var player = new Player(socket.accept(), colors.get(noConnectedPlayers));
+      System.out.println("Player connected.");
       player.protocol.sendHandshake("PLAYER");
       players.add(player);
       noConnectedPlayers++;
@@ -78,6 +84,8 @@ public class Game {
   private void makeQueue() {
     indexCurrentPlayer = new Random().nextInt(noPlayers);
     currentPlayer = players.get(indexCurrentPlayer);
+    System.out.println("Queue created. " + currentPlayer.color + " begins.");
+
   }
 
   private void updateQueue() {
@@ -85,9 +93,11 @@ public class Game {
       indexCurrentPlayer = (indexCurrentPlayer + 1) % noPlayers;
       currentPlayer = players.get(indexCurrentPlayer);
     } while (currentPlayer.hasFinished);
+    System.out.println("currentPlayer: " + currentPlayer.color);
   }
 
   private void endTurn() {
+    System.out.println("Next turn.");
     updateQueue();
 
     for (Player player : players) {
@@ -212,14 +222,12 @@ public class Game {
             }
           }
 
-          if (!gameVariant.isNextJumpPossible()) {
-            endTurn();
-          }
-
           if (noPlayersInGame == 0) {
             for (Player player : players) {
               player.protocol.endGame();
             }
+          } else if (!gameVariant.isNextJumpPossible()) {
+            endTurn();
           }
         }
       }
