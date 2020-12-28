@@ -6,11 +6,9 @@ import techprog.client.Client;
 import java.io.IOException;
 
 public class WaitingController {
-    private Client client;
-
     @FXML
     public void initialize() {
-        client = Client.getInstance();
+        Client client = Client.getInstance();
         client.setWaitingController(this);
 
         new Thread(() -> {

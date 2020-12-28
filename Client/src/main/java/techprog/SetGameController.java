@@ -8,10 +8,10 @@ import java.io.IOException;
 
 public class SetGameController {
     @FXML
-    public ComboBox<String> variantGame;
+    public ComboBox<String> variantBox;
 
     @FXML
-    public ComboBox<String> noPlayers;
+    public ComboBox<String> playersBox;
 
     private Client client;
 
@@ -22,7 +22,12 @@ public class SetGameController {
 
     @FXML
     public void sendSettings() throws IOException {
-        client.setGame(variantGame.getSelectionModel().getSelectedItem(), noPlayers.getSelectionModel().getSelectedItem());
-        App.setRoot("waiting");
+        String variantGame = variantBox.getSelectionModel().getSelectedItem();
+        String noPlayers = playersBox.getSelectionModel().getSelectedItem();
+
+        if (!variantGame.equals(variantBox.getPromptText()) && !noPlayers.equals(playersBox.getPromptText())) {
+            client.setGame(variantGame, noPlayers);
+            App.setRoot("waiting");
+        }
     }
 }

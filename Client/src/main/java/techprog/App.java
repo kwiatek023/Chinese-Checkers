@@ -19,6 +19,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Client client = Client.getInstance();
+        client.initConnection();
 
         String resource;
         if (client.isOwner()) {
