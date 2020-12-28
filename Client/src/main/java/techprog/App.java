@@ -11,7 +11,7 @@ import techprog.client.Client;
 import java.io.IOException;
 
 /**
- * JavaFX App
+ * JavaFX App - Chinese Checkers
  */
 public class App extends Application {
     private static Scene scene;
@@ -19,6 +19,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Client client = Client.getInstance();
+        client.initConnection();
 
         String resource;
         if (client.isOwner()) {

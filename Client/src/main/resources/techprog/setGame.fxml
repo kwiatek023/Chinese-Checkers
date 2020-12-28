@@ -8,7 +8,7 @@
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="techprog.SetGameController">
     <children>
         <Label text="Select variant of game:" />
-        <ComboBox fx:id="variantGame" promptText="Variant of game">
+        <ComboBox fx:id="variantBox" promptText="Variant of game">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="BASIC" />
@@ -16,7 +16,7 @@
             </items>
         </ComboBox>
         <Label text="Enter number of players:" />
-        <ComboBox fx:id="noPlayers" promptText="Number of players">
+        <ComboBox fx:id="playersBox" promptText="Number of players">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="2" />
