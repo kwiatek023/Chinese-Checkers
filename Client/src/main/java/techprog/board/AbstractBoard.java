@@ -3,13 +3,13 @@ package techprog.board;
 import javafx.scene.Group;
 
 public class AbstractBoard extends Group {
-    int noPlayers;
-    int noRows;
-    int[] noFieldsInRow;
-    int[] horizontalConstant;
-    int[] noIgnoredFields;
-    Field[][] fields;
-    Pawn[][] pawns;
+    protected int noPlayers;
+    protected int noRows;
+    protected int[] noFieldsInRow;
+    protected int[] horizontalConstant;
+    protected int[] noIgnoredFields;
+    protected Field[][] fields;
+    protected Pawn[][] pawns;
 
     public int getNoRows() {
         return noRows;
