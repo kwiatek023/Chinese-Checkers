@@ -20,13 +20,15 @@ public class Client {
     private GameController gameController;
     private WaitingController waitingController;
 
-    private Client() {
-        initSocket();
-        receiveHandshake();
-    }
+    private Client() {}
 
     public static Client getInstance() {
         return instance;
+    }
+
+    public void initConnection() {
+        initSocket();
+        receiveHandshake();
     }
 
     private void initSocket() {
