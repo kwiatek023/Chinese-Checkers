@@ -62,9 +62,12 @@ public class Client {
     }
 
     public void waitForStart() throws IOException {
-        if(in.hasNextLine()) {
+        if (in.hasNextLine()) {
             var split = in.nextLine().split(" ");
-            welcomeMessage = new WelcomeMessage(split[1], Integer.parseInt(split[2]), split[3]);
+            String color = split[1];
+            int noPlayers = Integer.parseInt(split[2]);
+            String firstPlayer = split[3];
+            welcomeMessage = new WelcomeMessage(color, noPlayers, firstPlayer);
         }
 
         Platform.runLater(() -> {
@@ -83,7 +86,7 @@ public class Client {
     public void play() {
         System.out.println("Client: started playing");
 
-        while(in.hasNextLine()) {
+        while (in.hasNextLine()) {
             var response = in.nextLine();
             System.out.println("Response from server: " + response);
             String[] commands = response.split(" ");
@@ -126,9 +129,7 @@ public class Client {
                     break;
                 }
                 case "END": {
-                    Platform.runLater(() -> {
-                        gameController.endGame();
-                    });
+                    Platform.runLater(() -> gameController.endGame());
                     break;
                 }
                 case "RAGE_QUIT": {
@@ -152,6 +153,7 @@ public class Client {
     }
 
     public void closeConnection() {
+        System.out.println("Client is closing connection");
         sendMessage("QUIT");
 
         try {

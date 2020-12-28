@@ -22,7 +22,7 @@ public class App extends Application {
 
         String resource;
         if (client.isOwner()) {
-            resource= "setGame";
+            resource = "setGame";
         } else {
             resource = "waiting";
         }
@@ -39,7 +39,7 @@ public class App extends Application {
         });
     }
 
-   static void setRoot(String fxml) throws IOException {
+    static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 

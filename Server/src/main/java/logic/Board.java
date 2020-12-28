@@ -55,32 +55,28 @@ public class Board extends AbstractBoard {
     pawns = new Pawn[noRows][noRows];
 
     switch (noPlayers) {
-      case 2: {
+      case 2 -> {
         createGreenPawns();
         createRedPawns();
-        break;
       }
-      case 3: {
+      case 3 -> {
         createGreenPawns();
         createYellowPawns();
         createBlackPawns();
-        break;
       }
-      case 4: {
+      case 4 -> {
         createGreenPawns();
         createYellowPawns();
         createRedPawns();
         createBluePawns();
-        break;
       }
-      case 6: {
+      case 6 -> {
         createGreenPawns();
         createWhitePawns();
         createYellowPawns();
         createRedPawns();
         createBlackPawns();
         createBluePawns();
-        break;
       }
     }
   }

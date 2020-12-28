@@ -6,7 +6,7 @@ import javafx.scene.shape.Circle;
 public class Pawn extends Circle {
     private int verticalID;
     private int horizontalID;
-    private Color color;
+    private final Color color;
 
     Pawn(int verticalID, int horizontalID, Color color) {
         this.verticalID = verticalID;

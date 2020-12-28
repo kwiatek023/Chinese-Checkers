@@ -19,24 +19,24 @@ public class Board extends AbstractBoard {
     }
 
     private int[] createNoFieldsInRow() {
-        return new int[] {1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1};
+        return new int[]{1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1};
     }
 
     private int[] createHorizontalConstant() {
-        return new int[] {4, 4, 4, 4, 0, 1, 2, 3, 4, 4, 4, 4, 4, 9, 10, 11, 12};
+        return new int[]{4, 4, 4, 4, 0, 1, 2, 3, 4, 4, 4, 4, 4, 9, 10, 11, 12};
     }
 
     private int[] createNoIgnoredFields() {
-        return new int[] {6, 5, 5, 4, 0, 0, 1, 1, 2, 1, 1, 0, 0, 4, 5, 5, 6};
+        return new int[]{6, 5, 5, 4, 0, 0, 1, 1, 2, 1, 1, 0, 0, 4, 5, 5, 6};
     }
 
     private void createFields() {
         fields = new Field[noRows][noRows];
 
-        for(int i = 0; i < noRows; i++) {
-            for(int j = 0; j < noFieldsInRow[i]; j++) {
+        for (int i = 0; i < noRows; i++) {
+            for (int j = 0; j < noFieldsInRow[i]; j++) {
                 int verticalID = i;
-                int horizontalID = horizontalConstant[i]+j;
+                int horizontalID = horizontalConstant[i] + j;
                 fields[verticalID][horizontalID] = new Field(verticalID, horizontalID);
             }
         }
@@ -78,10 +78,10 @@ public class Board extends AbstractBoard {
 
     private void createWhitePawns() {
         int noPawnsInRow = 1;
-        for(int i = 9; i < 13; i++) {
-            for(int j = 0; j < noPawnsInRow; j++) {
+        for (int i = 9; i < 13; i++) {
+            for (int j = 0; j < noPawnsInRow; j++) {
                 int verticalID = i;
-                int horizontalID = horizontalConstant[i]+j;
+                int horizontalID = horizontalConstant[i] + j;
                 pawns[verticalID][horizontalID] = new Pawn(verticalID, horizontalID, Color.WHITE);
             }
             noPawnsInRow++;
@@ -89,20 +89,20 @@ public class Board extends AbstractBoard {
     }
 
     private void createBluePawns() {
-        for(int i = 9; i < 13; i++) {
-            for(int j = 9; j < noFieldsInRow[i]; j++) {
+        for (int i = 9; i < 13; i++) {
+            for (int j = 9; j < noFieldsInRow[i]; j++) {
                 int verticalID = i;
-                int horizontalID = horizontalConstant[i]+j;
+                int horizontalID = horizontalConstant[i] + j;
                 pawns[verticalID][horizontalID] = new Pawn(verticalID, horizontalID, Color.BLUE);
             }
         }
     }
 
     private void createBlackPawns() {
-        for(int i = 4; i < 8; i++) {
-            for(int j = 9; j < noFieldsInRow[i]; j++) {
+        for (int i = 4; i < 8; i++) {
+            for (int j = 9; j < noFieldsInRow[i]; j++) {
                 int verticalID = i;
-                int horizontalID = horizontalConstant[i]+j;
+                int horizontalID = horizontalConstant[i] + j;
                 pawns[verticalID][horizontalID] = new Pawn(verticalID, horizontalID, Color.BLACK);
             }
         }
@@ -110,10 +110,10 @@ public class Board extends AbstractBoard {
 
     private void createYellowPawns() {
         int noPawnsInRow = 4;
-        for(int i = 4; i < 8; i++) {
-            for(int j = 0; j < noPawnsInRow; j++) {
+        for (int i = 4; i < 8; i++) {
+            for (int j = 0; j < noPawnsInRow; j++) {
                 int verticalID = i;
-                int horizontalID = horizontalConstant[i]+j;
+                int horizontalID = horizontalConstant[i] + j;
                 pawns[verticalID][horizontalID] = new Pawn(verticalID, horizontalID, Color.YELLOW);
             }
             noPawnsInRow--;
@@ -121,10 +121,10 @@ public class Board extends AbstractBoard {
     }
 
     private void createRedPawns() {
-        for(int i = 0; i < 4; i++) {
-            for(int j = 0; j < noFieldsInRow[i]; j++) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < noFieldsInRow[i]; j++) {
                 int verticalID = i;
-                int horizontalID = horizontalConstant[i]+j;
+                int horizontalID = horizontalConstant[i] + j;
                 pawns[verticalID][horizontalID] = new Pawn(verticalID, horizontalID, Color.RED);
             }
         }
@@ -132,10 +132,10 @@ public class Board extends AbstractBoard {
 
 
     private void createGreenPawns() {
-        for(int i = 13; i < noRows; i++) {
-            for(int j = 0; j < noFieldsInRow[i]; j++) {
+        for (int i = 13; i < noRows; i++) {
+            for (int j = 0; j < noFieldsInRow[i]; j++) {
                 int verticalID = i;
-                int horizontalID = horizontalConstant[i]+j;
+                int horizontalID = horizontalConstant[i] + j;
                 pawns[verticalID][horizontalID] = new Pawn(verticalID, horizontalID, Color.GREEN);
             }
         }
