@@ -6,10 +6,6 @@ import logic.Point;
 import java.util.Set;
 
 public class BasicGameVariant extends GameVariant {
-  public BasicGameVariant() {
-    this.blockAllowed = true;
-  }
-
   @Override
   public boolean isValidMove(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
     String pawnColor = board.getPawn(oldVerticalID, oldHorizontalID).getColor();
@@ -20,11 +16,11 @@ public class BasicGameVariant extends GameVariant {
     }
 
     return upLeft(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID)
-            || upRight(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID)
-            || left(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID)
-            || right(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID)
-            || bottomLeft(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID)
-            || bottomRight(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
+        || upRight(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID)
+        || left(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID)
+        || right(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID)
+        || bottomLeft(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID)
+        || bottomRight(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
   }
 
   @Override
