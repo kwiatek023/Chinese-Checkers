@@ -84,7 +84,6 @@ public class Game {
     indexCurrentPlayer = new Random().nextInt(noPlayers);
     currentPlayer = players.get(indexCurrentPlayer);
     System.out.println("Queue created. " + currentPlayer.color + " begins.");
-
   }
 
   private void updateQueue() {

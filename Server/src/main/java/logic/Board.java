@@ -23,7 +23,6 @@ public class Board extends AbstractBoard {
     createBottomRightCorner();
 
     this.colorToDestinationCorner = new HashMap<>();
-    createFields();
     createPawns(noPlayers);
   }
 
@@ -37,18 +36,6 @@ public class Board extends AbstractBoard {
 
   private int[] createNoIgnoredFields() {
     return new int[]{6, 5, 5, 4, 0, 0, 1, 1, 2, 1, 1, 0, 0, 4, 5, 5, 6};
-  }
-
-  private void createFields() {
-    fields = new Field[noRows][noRows];
-
-    for (int i = 0; i < noRows; i++) {
-      for (int j = 0; j < noFieldsInRow[i]; j++) {
-        int verticalID = i;
-        int horizontalID = horizontalConstant[i] + j;
-        fields[verticalID][horizontalID] = new Field(verticalID, horizontalID);
-      }
-    }
   }
 
   private void createPawns(int noPlayers) {
@@ -152,6 +139,12 @@ public class Board extends AbstractBoard {
     colorToDestinationCorner.put("GREEN", upCorner);
   }
 
+  /** This method updates pawn's location.
+   * @param oldVerticalID old vertical ID of a pawn
+   * @param oldHorizontalID old horizontal ID of a pawn
+   * @param newVerticalID new vertical ID of a pawn
+   * @param newHorizontalID new horizontal ID of a pawn
+   */
   public void updatePawns(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
     pawns[newVerticalID][newHorizontalID] = pawns[oldVerticalID][oldHorizontalID];
     pawns[oldVerticalID][oldHorizontalID] = null;
