@@ -73,7 +73,7 @@ public class BasicGameVariant extends GameVariant {
 
   private boolean right(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
     if (newVerticalID - oldVerticalID == 0 && newHorizontalID - oldHorizontalID == 2) {
-      if (board.getPawn(newVerticalID, newHorizontalID + 1) != null) {
+      if (board.getPawn(newVerticalID, newHorizontalID - 1) != null) {
         return true;
       }
     } else if (newVerticalID - oldVerticalID == 0 && newHorizontalID - oldHorizontalID == 1) {
@@ -84,7 +84,7 @@ public class BasicGameVariant extends GameVariant {
 
   private boolean left(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
     if (newVerticalID - oldVerticalID == 0 && newHorizontalID - oldHorizontalID == -2) {
-      if (board.getPawn(newVerticalID, newHorizontalID - 1) != null) {
+      if (board.getPawn(newVerticalID, newHorizontalID + 1) != null) {
         return true;
       }
     } else if (newVerticalID - oldVerticalID == 0 && newHorizontalID - oldHorizontalID == -1) {
