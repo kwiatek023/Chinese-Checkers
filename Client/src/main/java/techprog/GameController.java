@@ -1,5 +1,6 @@
 package techprog;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -198,6 +199,10 @@ public class GameController {
         if (alert.getResult() == ButtonType.OK) {
             client.closeConnection();
         }
+    }
+
+    public void endTurn(ActionEvent actionEvent) {
+        client.sendMessage("END_TURN");
     }
 }
 

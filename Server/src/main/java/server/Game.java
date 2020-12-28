@@ -87,6 +87,14 @@ public class Game {
     } while (currentPlayer.hasFinished);
   }
 
+  private void endTurn() {
+    updateQueue();
+
+    for (Player player : players) {
+      player.protocol.nextTurn(currentPlayer.color);
+    }
+  }
+
   private void matchColors(int noPlayers) {
     switch (noPlayers) {
       case 2: {
@@ -169,6 +177,10 @@ public class Game {
           return;
         } else if (command.startsWith("MOVE")) {
           processMoveCommand(command.substring(5));
+        } else if (command.startsWith("END_TURN")) {
+          if (this == currentPlayer) {
+            endTurn();
+          }
         }
       }
     }
@@ -200,13 +212,11 @@ public class Game {
             }
           }
 
-          if (noPlayersInGame > 0) {
-            updateQueue();
+          if (!gameVariant.isNextJumpPossible()) {
+            endTurn();
+          }
 
-            for (Player player : players) {
-              player.protocol.nextTurn(currentPlayer.color);
-            }
-          } else {
+          if (noPlayersInGame == 0) {
             for (Player player : players) {
               player.protocol.endGame();
             }

@@ -42,6 +42,11 @@ public class BasicGameVariant extends GameVariant {
     return true;
   }
 
+  @Override
+  public boolean isNextJumpPossible() {
+    return false;
+  }
+
   private boolean isInDestinationCorner(String pawnColor, int verticalID, int horizontalID) {
     Set<Point> destinationCorner = board.getDestinationCorner(pawnColor);
 
