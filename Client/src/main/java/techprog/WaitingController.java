@@ -1,15 +1,14 @@
 package techprog;
 
 import javafx.fxml.FXML;
+import techprog.client.Client;
 
 import java.io.IOException;
 
 public class WaitingController {
-    private Client client;
-
     @FXML
-    public void initialize() throws IOException {
-        client = Client.getInstance();
+    public void initialize() {
+        Client client = Client.getInstance();
         client.setWaitingController(this);
 
         new Thread(() -> {

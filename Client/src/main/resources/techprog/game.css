@@ -1,0 +1,17 @@
+* {
+    -pref-width: 150px;
+}
+
+VBox {
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+Label {
+    -fx-pref-width: -pref-width;
+    -fx-alignment: CENTER;
+}
+
+Button {
+    -fx-pref-width: -pref-width;
+}

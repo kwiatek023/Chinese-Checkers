@@ -1,4 +1,4 @@
-package techprog.Board;
+package techprog.board;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -6,13 +6,14 @@ import javafx.scene.shape.Circle;
 public class Pawn extends Circle {
     private int verticalID;
     private int horizontalID;
-    private Color color;
+    private final Color color;
 
     Pawn(int verticalID, int horizontalID, Color color) {
         this.verticalID = verticalID;
         this.horizontalID = horizontalID;
         this.color = color;
         this.setStroke(Color.BLACK);
+        this.setStrokeWidth(1);
     }
 
     public int getVerticalID() {
@@ -27,4 +28,11 @@ public class Pawn extends Circle {
         return color;
     }
 
+    public void setVerticalID(int verticalID) {
+        this.verticalID = verticalID;
+    }
+
+    public void setHorizontalID(int horizontalID) {
+        this.horizontalID = horizontalID;
+    }
 }

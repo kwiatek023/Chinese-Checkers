@@ -1,8 +1,9 @@
 package logic;
 
-public class Board extends AbstractBoard {
-  private int noPlayers;
+import java.util.HashMap;
+import java.util.HashSet;
 
+public class Board extends AbstractBoard {
   public Board(int noPlayers) {
     if (noPlayers < 2 || noPlayers == 5 || noPlayers > 6) {
       throw new IllegalArgumentException("Invalid number of players.");
@@ -14,7 +15,14 @@ public class Board extends AbstractBoard {
     this.horizontalConstant = createHorizontalConstant();
     this.noIgnoredFields = createNoIgnoredFields();
 
-    createFields();
+    createUpRightCorner();
+    createUpCorner();
+    createUpLeftCorner();
+    createBottomLeftCorner();
+    createBottomCorner();
+    createBottomRightCorner();
+
+    this.colorToDestinationCorner = new HashMap<>();
     createPawns(noPlayers);
   }
 
@@ -30,48 +38,32 @@ public class Board extends AbstractBoard {
     return new int[]{6, 5, 5, 4, 0, 0, 1, 1, 2, 1, 1, 0, 0, 4, 5, 5, 6};
   }
 
-  private void createFields() {
-    fields = new Field[noRows][noRows];
-
-    for (int i = 0; i < noRows; i++) {
-      for (int j = 0; j < noFieldsInRow[i]; j++) {
-        int verticalID = i;
-        int horizontalID = horizontalConstant[i] + j;
-        fields[verticalID][horizontalID] = new Field(verticalID, horizontalID);
-      }
-    }
-  }
-
   private void createPawns(int noPlayers) {
     pawns = new Pawn[noRows][noRows];
 
     switch (noPlayers) {
-      case 2: {
+      case 2 -> {
         createGreenPawns();
         createRedPawns();
-        break;
       }
-      case 3: {
+      case 3 -> {
         createGreenPawns();
         createYellowPawns();
         createBlackPawns();
-        break;
       }
-      case 4: {
+      case 4 -> {
         createGreenPawns();
         createYellowPawns();
         createRedPawns();
         createBluePawns();
-        break;
       }
-      case 6: {
+      case 6 -> {
         createGreenPawns();
         createWhitePawns();
         createYellowPawns();
         createRedPawns();
         createBlackPawns();
         createBluePawns();
-        break;
       }
     }
   }
@@ -86,6 +78,7 @@ public class Board extends AbstractBoard {
       }
       noPawnsInRow++;
     }
+    colorToDestinationCorner.put("WHITE", upRightCorner);
   }
 
   private void createBluePawns() {
@@ -96,6 +89,7 @@ public class Board extends AbstractBoard {
         pawns[verticalID][horizontalID] = new Pawn(verticalID, horizontalID, "BLUE");
       }
     }
+    colorToDestinationCorner.put("BLUE", upLeftCorner);
   }
 
   private void createBlackPawns() {
@@ -106,6 +100,7 @@ public class Board extends AbstractBoard {
         pawns[verticalID][horizontalID] = new Pawn(verticalID, horizontalID, "BLACK");
       }
     }
+    colorToDestinationCorner.put("BLACK", bottomLeftCorner);
   }
 
   private void createYellowPawns() {
@@ -118,6 +113,7 @@ public class Board extends AbstractBoard {
       }
       noPawnsInRow--;
     }
+    colorToDestinationCorner.put("YELLOW", bottomRightCorner);
   }
 
   private void createRedPawns() {
@@ -128,8 +124,8 @@ public class Board extends AbstractBoard {
         pawns[verticalID][horizontalID] = new Pawn(verticalID, horizontalID, "RED");
       }
     }
+    colorToDestinationCorner.put("RED", bottomCorner);
   }
-
 
   private void createGreenPawns() {
     for (int i = 13; i < noRows; i++) {
@@ -139,10 +135,97 @@ public class Board extends AbstractBoard {
         pawns[verticalID][horizontalID] = new Pawn(verticalID, horizontalID, "GREEN");
       }
     }
+
+    colorToDestinationCorner.put("GREEN", upCorner);
   }
 
+  /** This method updates pawn's location.
+   * @param oldVerticalID old vertical ID of a pawn
+   * @param oldHorizontalID old horizontal ID of a pawn
+   * @param newVerticalID new vertical ID of a pawn
+   * @param newHorizontalID new horizontal ID of a pawn
+   */
   public void updatePawns(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
     pawns[newVerticalID][newHorizontalID] = pawns[oldVerticalID][oldHorizontalID];
     pawns[oldVerticalID][oldHorizontalID] = null;
+
+    pawns[newVerticalID][newHorizontalID].setVerticalID(newVerticalID);
+    pawns[newVerticalID][newHorizontalID].setHorizontalID(newHorizontalID);
+  }
+
+  private void createUpLeftCorner() {
+    upLeftCorner = new HashSet<>();
+
+    int noFieldsInRow = 4;
+    for (int i = 4; i < 8; i++) {
+      for (int j = 0; j < noFieldsInRow; j++) {
+        int verticalID = i;
+        int horizontalID = horizontalConstant[i] + j;
+        upLeftCorner.add(new Point(verticalID, horizontalID));
+      }
+      noFieldsInRow--;
+    }
+  }
+
+  private void createUpCorner() {
+    upCorner = new HashSet<>();
+
+    for (int i = 0; i < 4; i++) {
+      for (int j = 0; j < noFieldsInRow[i]; j++) {
+        int verticalID = i;
+        int horizontalID = horizontalConstant[i] + j;
+        upCorner.add(new Point(verticalID, horizontalID));
+      }
+    }
+  }
+
+  private void createUpRightCorner() {
+    upRightCorner = new HashSet<>();
+
+    for (int i = 4; i < 8; i++) {
+      for (int j = 9; j < noFieldsInRow[i]; j++) {
+        int verticalID = i;
+        int horizontalID = horizontalConstant[i] + j;
+        upRightCorner.add(new Point(verticalID, horizontalID));
+      }
+    }
+  }
+
+  private void createBottomRightCorner() {
+    bottomRightCorner = new HashSet<>();
+
+    for (int i = 9; i < 13; i++) {
+      for (int j = 9; j < noFieldsInRow[i]; j++) {
+        int verticalID = i;
+        int horizontalID = horizontalConstant[i] + j;
+        bottomRightCorner.add(new Point(verticalID, horizontalID));
+      }
+    }
+  }
+
+  private void createBottomCorner() {
+    bottomCorner = new HashSet<>();
+
+    for (int i = 13; i < noRows; i++) {
+      for (int j = 0; j < noFieldsInRow[i]; j++) {
+        int verticalID = i;
+        int horizontalID = horizontalConstant[i] + j;
+        bottomCorner.add(new Point(verticalID, horizontalID));
+      }
+    }
+  }
+
+  private void createBottomLeftCorner() {
+    bottomLeftCorner = new HashSet<>();
+
+    int noFieldsInRow = 1;
+    for (int i = 9; i < 13; i++) {
+      for (int j = 0; j < noFieldsInRow; j++) {
+        int verticalID = i;
+        int horizontalID = horizontalConstant[i] + j;
+        bottomLeftCorner.add(new Point(verticalID, horizontalID));
+      }
+      noFieldsInRow++;
+    }
   }
 }

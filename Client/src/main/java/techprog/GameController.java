@@ -1,59 +1,80 @@
 package techprog;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-import techprog.Board.Board;
-import techprog.Board.Field;
-import techprog.Board.Pawn;
+import techprog.board.Board;
+import techprog.board.Field;
+import techprog.board.Pawn;
+import techprog.client.Client;
+import techprog.colorFactory.ConcreteColorFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Math.sqrt;
 
 public class GameController {
+    @FXML
     public BorderPane boardPane;
+
+    @FXML
     public Label colorLabel;
+
+    @FXML
     public Label turnLabel;
+
+    @FXML
+    public Label rankingLabel;
+
     private Client client;
     private Color color;
     private int noPlayers;
     private String currentPlayer;
     private Board board;
     private Pawn activePawn = null;
+    private List<String> ranking;
 
     @FXML
     public void initialize() {
         client = Client.getInstance();
         client.setGameController(this);
 
+        receiveWelcomeMessage();
+        drawBoard();
+        createRanking();
+
+        new Thread(() -> client.play()).start();
+    }
+
+    private void receiveWelcomeMessage() {
         var welcomeMessage = client.getWelcomeMessage();
+
         String colorName = welcomeMessage.getColor();
-        noPlayers = welcomeMessage.getNoPlayers();
-        currentPlayer = welcomeMessage.getFirstPlayer();
-
         colorLabel.setText("You are " + colorName);
-        turnLabel.setText("Now is " + currentPlayer + "'s turn");
-
         color = new ConcreteColorFactory().getColor(colorName);
 
-        drawBoard();
+        noPlayers = welcomeMessage.getNoPlayers();
 
-        new Thread(() -> {
-            client.play();
-        }).start();
+        currentPlayer = welcomeMessage.getFirstPlayer();
+        turnLabel.setText("Now is " + currentPlayer + "'s turn");
     }
 
     private void drawBoard() {
         board = new Board(noPlayers);
         boardPane.setCenter(board);
-        drawFields();
-        drawPawns();
-    }
 
-    private void drawFields() {
         int radius = 20;
         int space = 10;
 
+        drawFields(radius, space);
+        drawPawns(radius, space);
+    }
+
+    private void drawFields(int radius, int space) {
         for (int i = 0; i < board.getNoRows(); i++) {
             double y = (i * (2 * radius + space)) * sqrt(3) / 2 + (radius + space);
 
@@ -82,10 +103,7 @@ public class GameController {
         }
     }
 
-    private void drawPawns() {
-        int radius = 20;
-        int space = 10;
-
+    private void drawPawns(int radius, int space) {
         for (int i = 0; i < board.getNoRows(); i++) {
             double y = (i * (2 * radius + space)) * sqrt(3) / 2 + (radius + space);
 
@@ -105,7 +123,14 @@ public class GameController {
 
                     pawn.setOnMouseClicked(event -> {
                         if (pawn.getColor().equals(this.color)) {
+                            if (activePawn != null) {
+                                resetActivePawn();
+                            }
+
                             activePawn = pawn;
+                            activePawn.setStroke(Color.DARKGREY);
+                            activePawn.setStrokeWidth(5);
+                            System.out.println("Active pawn IDS: " + activePawn.getVerticalID() + " " + activePawn.getHorizontalID());
                         }
                     });
 
@@ -115,8 +140,15 @@ public class GameController {
         }
     }
 
+    private void createRanking() {
+        ranking = new ArrayList<>();
+        rankingLabel.setText("Ranking");
+        rankingLabel.setVisible(false);
+    }
 
     public void resetActivePawn() {
+        this.activePawn.setStroke(Color.BLACK);
+        this.activePawn.setStrokeWidth(1);
         this.activePawn = null;
     }
 
@@ -127,11 +159,43 @@ public class GameController {
 
         movedPawn.setCenterX(field.getCenterX());
         movedPawn.setCenterY(field.getCenterY());
-
     }
 
     public void updateCurrentPlayer(String nextPlayer) {
         currentPlayer = nextPlayer;
         turnLabel.setText("Now is " + currentPlayer + "'s turn");
     }
+
+    public void updateRanking(String player) {
+        ranking.add(player);
+        rankingLabel.setText(rankingLabel.getText() + "\n" + ranking.size() + ". " + player);
+        rankingLabel.setVisible(true);
+    }
+
+    public void endGame() {
+        endGameAlert("All players have finished. Congratulation!");
+    }
+
+    public void rageQuit(String player) {
+        endGameAlert("Rage quit :( " + player + " has gone");
+    }
+
+    private void endGameAlert(String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("The end of the game");
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.setOnCloseRequest(e -> client.closeConnection());
+
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.OK) {
+            client.closeConnection();
+        }
+    }
+
+    public void endTurn() {
+        client.sendMessage("END_TURN");
+    }
 }
+
