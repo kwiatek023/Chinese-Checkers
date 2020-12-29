@@ -16,6 +16,11 @@ import java.io.IOException;
 public class App extends Application {
     private static Scene scene;
 
+    /** Display appropriate layout depending on the client type (Owner or not).
+     *  Prepares stage and scene.
+     * @param stage
+     * @throws IOException if unsuccessful
+     */
     @Override
     public void start(Stage stage) throws IOException {
         Client client = Client.getInstance();

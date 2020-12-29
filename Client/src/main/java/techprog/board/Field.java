@@ -3,11 +3,15 @@ package techprog.board;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+/**
+ * Represents a field on a Board. See also {@link Board}.
+ * Every field reacts on user click by changing its stroke.
+ */
 public class Field extends Circle {
     private final int verticalID;
     private final int horizontalID;
 
-    Field(int verticalID, int horizontalID) {
+    public Field(int verticalID, int horizontalID) {
         this.verticalID = verticalID;
         this.horizontalID = horizontalID;
 

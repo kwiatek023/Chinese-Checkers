@@ -2,6 +2,9 @@ package techprog.colorFactory;
 
 import javafx.scene.paint.Color;
 
+/**
+ * Factory of color. See also {@link ColorFactory}.
+ */
 public class ConcreteColorFactory implements ColorFactory {
     @Override
     public Color getColor(String color) {

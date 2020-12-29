@@ -6,6 +6,9 @@ import techprog.client.Client;
 
 import java.io.IOException;
 
+/**
+ * Allows the user to set variant of the game and number of players.
+ */
 public class SetGameController {
     @FXML
     public ComboBox<String> variantBox;
@@ -20,6 +23,9 @@ public class SetGameController {
         client = Client.getInstance();
     }
 
+    /** Verifies user choice and sends it to Client. See also {@link Client}.
+     * @throws IOException if unsuccessful
+     */
     @FXML
     public void sendSettings() throws IOException {
         String variantGame = variantBox.getSelectionModel().getSelectedItem();
