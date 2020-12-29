@@ -1,5 +1,9 @@
 package techprog.client;
 
+/**
+ * Represents message which client receives at the beginning of the game.
+ * Contains information about color, number of players and who begins the game.
+ */
 public class WelcomeMessage {
     private final String color;
     private final int noPlayers;

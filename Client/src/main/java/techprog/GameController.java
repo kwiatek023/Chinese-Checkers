@@ -17,6 +17,12 @@ import java.util.List;
 
 import static java.lang.Math.sqrt;
 
+/**
+ * Responsible for controlling flow of the game.
+ * Creates a board on BoardPane.
+ * Receives information about user's action and pass it to {@link Client}.
+ * Displays information about color of client, color of current player and ranking.
+ */
 public class GameController {
     @FXML
     public BorderPane boardPane;
@@ -38,6 +44,12 @@ public class GameController {
     private Pawn activePawn = null;
     private List<String> ranking;
 
+    /**
+     * Informs the client who is its controller.
+     * Handles welcome message (see also {@link techprog.client.WelcomeMessage}).
+     * Draws a board and creates ranking.
+     * Creates new thread for client to handle its communication with server during the game.
+     */
     @FXML
     public void initialize() {
         client = Client.getInstance();
@@ -146,12 +158,22 @@ public class GameController {
         rankingLabel.setVisible(false);
     }
 
+    /**
+     * Makes a pawn inactive - sets its layout to default.
+     */
     public void resetActivePawn() {
         this.activePawn.setStroke(Color.BLACK);
         this.activePawn.setStrokeWidth(1);
         this.activePawn = null;
     }
 
+    /** Updates a board on the BoardPane.
+     * Changes pawns' location.
+     * @param oldVerticalID   old vertical ID of a pawn
+     * @param oldHorizontalID old horizontal ID of a pawn
+     * @param newVerticalID   new vertical ID of a pawn
+     * @param newHorizontalID new horizontal ID of a pawn
+     */
     public void redrawBoard(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
         board.updatePawns(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
         Field field = board.getField(newVerticalID, newHorizontalID);
@@ -161,21 +183,33 @@ public class GameController {
         movedPawn.setCenterY(field.getCenterY());
     }
 
+    /** Updates label with turn information.
+     * @param nextPlayer player who will perform next move.
+     */
     public void updateCurrentPlayer(String nextPlayer) {
         currentPlayer = nextPlayer;
         turnLabel.setText("Now is " + currentPlayer + "'s turn");
     }
 
+    /** Adds player to ranking.
+     * @param player player to be added to ranking
+     */
     public void updateRanking(String player) {
         ranking.add(player);
         rankingLabel.setText(rankingLabel.getText() + "\n" + ranking.size() + ". " + player);
         rankingLabel.setVisible(true);
     }
 
-    public void endGame() {
+    /**
+     * Displays dialog window to inform players about the end of the game when everybody has finished.
+     */
+    public void allFinished() {
         endGameAlert("All players have finished. Congratulation!");
     }
 
+    /**
+     * Displays dialog window to inform players about the end of the game when everybody has left.
+     */
     public void rageQuit(String player) {
         endGameAlert("Rage quit :( " + player + " has gone");
     }
@@ -194,6 +228,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Sends "END_TURN" message to server when player clicked end turn button.
+     */
     public void endTurn() {
         client.sendMessage("END_TURN");
     }

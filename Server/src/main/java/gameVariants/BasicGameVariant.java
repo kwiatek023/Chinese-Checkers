@@ -15,7 +15,7 @@ public class BasicGameVariant extends GameVariant {
    * @param oldHorizontalID old horizontal ID of a pawn
    * @param newVerticalID   new vertical ID of a pawn
    * @param newHorizontalID new horizontal ID of a pawn
-   * @return
+   * @return true if move is valid, false otherwise
    */
   @Override
   public boolean isValidMove(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {

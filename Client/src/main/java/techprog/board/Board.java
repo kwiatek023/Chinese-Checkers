@@ -2,6 +2,12 @@ package techprog.board;
 
 import javafx.scene.paint.Color;
 
+/**
+ * Concrete game board that handles 2, 3, 4 or 6 players.
+ * The board can consist of pawns in following colors:
+ * blue, black, yellow, green, red, white.
+ * The board consists of 17 rows and maximally 13 fields.
+ */
 public class Board extends AbstractBoard {
     public Board(int noPlayers) {
         if (noPlayers < 2 || noPlayers == 5 || noPlayers > 6) {
@@ -141,6 +147,12 @@ public class Board extends AbstractBoard {
         }
     }
 
+    /** This method updates pawn's location.
+     * @param oldVerticalID old vertical ID of a pawn
+     * @param oldHorizontalID old horizontal ID of a pawn
+     * @param newVerticalID new vertical ID of a pawn
+     * @param newHorizontalID new horizontal ID of a pawn
+     */
     public void updatePawns(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
         pawns[newVerticalID][newHorizontalID] = pawns[oldVerticalID][oldHorizontalID];
         pawns[oldVerticalID][oldHorizontalID] = null;

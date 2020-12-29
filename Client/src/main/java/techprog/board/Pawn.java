@@ -3,6 +3,9 @@ package techprog.board;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+/**
+ * Represents a pawn on a Board. See also {@link Board}.
+ */
 public class Pawn extends Circle {
     private int verticalID;
     private int horizontalID;

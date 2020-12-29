@@ -10,6 +10,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+/**
+ * Responsible for communication with server. It is a singleton.
+ */
 public class Client {
     private Socket socket;
     private Scanner in;
@@ -26,6 +29,10 @@ public class Client {
         return instance;
     }
 
+    /**
+     * Initializes connection to server.
+     * Receives handshake from server - information if this client is the owner of the game.
+     */
     public void initConnection() {
         initSocket();
         receiveHandshake();
@@ -54,6 +61,10 @@ public class Client {
         return isOwner;
     }
 
+    /** Sends information to server about user game settings.
+     * @param variant variant of the game
+     * @param noPlayers number of players
+     */
     public void setGame(String variant, String noPlayers) {
         out.println(variant);
         out.println(noPlayers);
@@ -63,7 +74,11 @@ public class Client {
         this.waitingController = waitingController;
     }
 
-    public void waitForStart() throws IOException {
+
+    /**
+     * Waits for welcome message from server and then notifies {@link WaitingController}.
+     */
+    public void waitForStart() {
         if (in.hasNextLine()) {
             var split = in.nextLine().split(" ");
             String color = split[1];
@@ -85,6 +100,10 @@ public class Client {
         this.gameController = gameController;
     }
 
+    /**
+     * Defines the information flow during the game.
+     * Depending on the received information, makes game controller to perform appropriate actions.
+     */
     public void play() {
         System.out.println("Client: started playing");
 
@@ -131,7 +150,7 @@ public class Client {
                     break;
                 }
                 case "END": {
-                    Platform.runLater(() -> gameController.endGame());
+                    Platform.runLater(() -> gameController.allFinished());
                     break;
                 }
                 case "RAGE_QUIT": {
@@ -149,11 +168,18 @@ public class Client {
         return welcomeMessage;
     }
 
+    /**
+     * Sends messages to server.
+     * @param message message to send.
+     */
     public void sendMessage(String message) {
         out.println(message);
         System.out.println("Client: message sent to server: " + message);
     }
 
+    /**
+     * Sends message about quit to server and closes connection.
+     */
     public void closeConnection() {
         System.out.println("Client is closing connection");
         sendMessage("QUIT");

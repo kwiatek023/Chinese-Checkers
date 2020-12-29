@@ -2,11 +2,21 @@ package techprog.board;
 
 import javafx.scene.Group;
 
+/**
+ * A template of the game board.
+ * Contains information about board's properties.
+ */
 public abstract class AbstractBoard extends Group {
     protected int noPlayers;
     protected int noRows;
     protected int[] noFieldsInRow;
+    /**
+     * Number of fields in every row to omit in order to simplify move validation.
+     */
     protected int[] horizontalConstant;
+    /**
+     * Number of fields in every row to omit in order to simplify drawing board in BoardPane.
+     */
     protected int[] noIgnoredFields;
     protected Field[][] fields;
     protected Pawn[][] pawns;
