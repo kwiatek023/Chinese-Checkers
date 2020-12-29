@@ -1,5 +1,8 @@
 package logic;
 
+/**
+ * Represents a pawn on a Board. See also {@link Board}.
+ */
 public class Pawn {
   private int verticalID;
   private int horizontalID;

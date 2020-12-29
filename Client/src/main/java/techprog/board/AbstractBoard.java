@@ -2,7 +2,7 @@ package techprog.board;
 
 import javafx.scene.Group;
 
-public class AbstractBoard extends Group {
+public abstract class AbstractBoard extends Group {
     protected int noPlayers;
     protected int noRows;
     protected int[] noFieldsInRow;

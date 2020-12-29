@@ -2,6 +2,9 @@ package logic;
 
 import java.util.Objects;
 
+/**
+ * Represents coordinates of Pawn on a Board. See also {@link Board}.
+ */
 public class Point {
   private final int verticalID;
   private final int horizontalID;
