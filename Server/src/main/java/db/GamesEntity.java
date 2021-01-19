@@ -13,6 +13,7 @@ public class GamesEntity {
     private List<MovesEntity> moves;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public int getId() {
         return id;

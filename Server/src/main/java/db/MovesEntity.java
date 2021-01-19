@@ -12,8 +12,22 @@ public class MovesEntity {
     private int oldHorizontalId;
     private int newVerticalId;
     private int newHorizontalId;
+    private GamesEntity game;
+
+    public MovesEntity() {
+
+    }
+
+    public MovesEntity(String playerColor, int oldVerticalId, int oldHorizontalId, int newVerticalId, int newHorizontalId) {
+        this.playerColor = playerColor;
+        this.oldVerticalId = oldVerticalId;
+        this.oldHorizontalId = oldHorizontalId;
+        this.newVerticalId = newVerticalId;
+        this.newHorizontalId = newHorizontalId;
+    }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "move_id", nullable = false)
     public int getMoveId() {
         return moveId;
@@ -21,6 +35,15 @@ public class MovesEntity {
 
     public void setMoveId(int moveId) {
         this.moveId = moveId;
+    }
+
+    @ManyToOne
+    public GamesEntity getGame() {
+        return game;
+    }
+
+    public void setGame(GamesEntity game) {
+        this.game = game;
     }
 
     @Basic
