@@ -16,28 +16,25 @@ public class Watcher {
   private final int gameId;
   private Socket socket;
   private GamesEntity gamesEntity;
-  private Dao dao;
-  private ApplicationContext appContext;
 
   public Watcher(ServerSocket server, int gameId) throws IOException {
     this.server = server;
     this.gameId = gameId;
     socket = server.accept();
     protocol = new Protocol(new PrintWriter(socket.getOutputStream(), true));
-    appContext = new ClassPathXmlApplicationContext("config/spring-configuration.xml");
-    dao = (Dao) appContext.getBean("dao");
-
     watchGame();
   }
 
   private void watchGame() {
+    ApplicationContext appContext = new ClassPathXmlApplicationContext("config/spring-configuration.xml");
+    Dao dao = (Dao) appContext.getBean("dao");
     gamesEntity = dao.getGame(gameId);
 
     protocol.sendHandshake("WATCHER " + gamesEntity.getNoPlayers());
 
     for (MovesEntity move : gamesEntity.getMoves()) {
       try {
-        Thread.sleep(5000);
+        Thread.sleep(1000);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }

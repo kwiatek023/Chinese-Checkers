@@ -1,8 +1,13 @@
 package server;
 
+import db.Dao;
+import db.GamesEntity;
+import db.MovesEntity;
 import gameVariants.ConcreteVariantFactory;
 import gameVariants.GameVariant;
 import logic.Board;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,6 +29,8 @@ public class Game {
   private GameVariant gameVariant;
   private int indexCurrentPlayer;
   private Player currentPlayer;
+  private GamesEntity gamesEntity;
+  private List<MovesEntity> movesEntities = new ArrayList<>();
 
   public Game(ServerSocket socket) {
     this.socket = socket;
@@ -62,6 +69,7 @@ public class Game {
       noPlayersInGame = noPlayers;
       board = new Board(noPlayers);
       gameVariant.setBoard(board);
+      gamesEntity = new GamesEntity(noPlayers);
     }
 
     matchColors(noPlayers);
@@ -210,6 +218,8 @@ public class Game {
           board.updatePawns(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
           this.protocol.validMoveMsg(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
 
+          movesEntities.add(new MovesEntity(this.color, oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID, gamesEntity));
+
           for (Player player : players) {
             if (player != this) {
               player.protocol.pawnMoved(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
@@ -229,6 +239,10 @@ public class Game {
             for (Player player : players) {
               player.protocol.endGame();
             }
+            ApplicationContext appContext = new ClassPathXmlApplicationContext("config/spring-configuration.xml");
+            Dao dao = (Dao) appContext.getBean("dao");
+            gamesEntity.setMoves(movesEntities);
+            dao.saveGame(gamesEntity);
           } else if (!gameVariant.isNextJumpPossible()) {
             endTurn();
           }
