@@ -60,11 +60,11 @@ public class Client {
         String role = split[0];
 
         isOwner = role.startsWith("OWNER");
-        isWatcher = role.startsWith("OWNER");
+        isWatcher = role.startsWith("WATCHER");
 
         if(isWatcher) {
-//            int numberOfPlayers = Integer.parseInt(split[1]);
-            welcomeMessage = new WelcomeMessage(null, 3, null);
+            int numberOfPlayers = Integer.parseInt(split[1]);
+            welcomeMessage = new WelcomeMessage(null, numberOfPlayers, null);
         }
     }
 
