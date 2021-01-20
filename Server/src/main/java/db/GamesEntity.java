@@ -17,6 +17,11 @@ public class GamesEntity {
         this.date = new Timestamp(System.currentTimeMillis());
     }
 
+    public GamesEntity(int noPlayers) {
+        this.date = new Timestamp(System.currentTimeMillis());
+        this.noPlayers = noPlayers;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
