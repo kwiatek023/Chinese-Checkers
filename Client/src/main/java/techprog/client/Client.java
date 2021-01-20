@@ -3,6 +3,7 @@ package techprog.client;
 import javafx.application.Platform;
 import techprog.GameController;
 import techprog.WaitingController;
+import techprog.WatchGameController;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,9 +20,11 @@ public class Client {
     private PrintWriter out;
     private static final Client instance = new Client();
     private boolean isOwner = false;
+    private boolean isWatcher = false;
     private WelcomeMessage welcomeMessage;
     private GameController gameController;
     private WaitingController waitingController;
+    private WatchGameController watchGameController;
 
     private Client() {}
 
@@ -53,12 +56,24 @@ public class Client {
     }
 
     private void receiveHandshake() {
-        var response = in.nextLine();
-        isOwner = response.startsWith("OWNER");
+        var split = in.nextLine().split(" ");
+        String role = split[0];
+
+        isOwner = role.startsWith("OWNER");
+        isWatcher = role.startsWith("OWNER");
+
+        if(isWatcher) {
+//            int numberOfPlayers = Integer.parseInt(split[1]);
+            welcomeMessage = new WelcomeMessage(null, 3, null);
+        }
     }
 
     public boolean isOwner() {
         return isOwner;
+    }
+
+    public boolean isWatcher() {
+        return isWatcher;
     }
 
     /** Sends information to server about user game settings.
@@ -125,7 +140,7 @@ public class Client {
                     });
                     break;
                 }
-                case "OPPONENT_MOVED": {
+                case "PAWN_MOVED": {
                     Platform.runLater(() -> {
                         int oldVerticalID = Integer.parseInt(commands[1]);
                         int oldHorizontalID = Integer.parseInt(commands[2]);
@@ -192,5 +207,36 @@ public class Client {
 
         Platform.exit();
         System.exit(0);
+    }
+
+    public void setWatchController(WatchGameController watchGameController) {
+        this.watchGameController = watchGameController;
+    }
+
+    public void watch() {
+        System.out.println("Client: started watching game");
+
+        while (in.hasNextLine()) {
+            var response = in.nextLine();
+            System.out.println("Response from server: " + response);
+            String[] commands = response.split(" ");
+
+            switch (commands[0]) {
+                case "PAWN_MOVED": {
+                    Platform.runLater(() -> {
+                        int oldVerticalID = Integer.parseInt(commands[1]);
+                        int oldHorizontalID = Integer.parseInt(commands[2]);
+                        int newVerticalID = Integer.parseInt(commands[3]);
+                        int newHorizontalID = Integer.parseInt(commands[4]);
+                        watchGameController.redrawBoard(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
+                    });
+                    break;
+                }
+                case "END": {
+                    Platform.runLater(() -> watchGameController.allFinished());
+                    break;
+                }
+            }
+        }
     }
 }

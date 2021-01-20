@@ -27,10 +27,14 @@ public class App extends Application {
         client.initConnection();
 
         String resource;
-        if (client.isOwner()) {
-            resource = "setGame";
+        if(client.isWatcher()) {
+            resource = "watchGame";
         } else {
-            resource = "waiting";
+            if (client.isOwner()) {
+                resource = "setGame";
+            } else {
+                resource = "waiting";
+            }
         }
 
         scene = new Scene(loadFXML(resource), 1100, 825);
