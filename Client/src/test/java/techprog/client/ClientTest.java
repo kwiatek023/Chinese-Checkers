@@ -41,8 +41,8 @@ class ClientTest {
 
     @Test
     void play() {
-        client.setGameController(new GameController());
-        assertThrows(NullPointerException.class, () -> client.play());
+        client.setBoardController(new GameController());
+        assertThrows(NullPointerException.class, () -> client.handleCommunication());
     }
 
     @Test

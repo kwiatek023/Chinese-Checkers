@@ -1,14 +1,6 @@
-import db.Dao;
-import db.GamesEntity;
-import db.MovesEntity;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import server.Server;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Main class that launches the server.
@@ -28,10 +20,10 @@ public class Main {
 
 //    ApplicationContext appContext = new ClassPathXmlApplicationContext("config/spring-configuration.xml");
 //    GamesEntity game = new GamesEntity();
-//    game.setNoPlayers(3);
+//    game.setNoPlayers(2);
 //
-//    MovesEntity move1 = new MovesEntity("GREEN", 1, 1, 2, 3, game);
-//    MovesEntity move2 = new MovesEntity("RED", 1, 7, 9, 3, game);
+//    MovesEntity move1 = new MovesEntity("GREEN", 13, 12, 12, 12, game);
+//    MovesEntity move2 = new MovesEntity("RED", 3, 5, 4, 6, game);
 //
 //    List<MovesEntity> moves = new ArrayList<>();
 //    moves.add(move1);

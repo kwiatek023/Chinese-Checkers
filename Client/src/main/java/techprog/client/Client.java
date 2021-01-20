@@ -1,9 +1,9 @@
 package techprog.client;
 
 import javafx.application.Platform;
+import techprog.BoardController;
 import techprog.GameController;
 import techprog.WaitingController;
-import techprog.WatchGameController;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,9 +22,8 @@ public class Client {
     private boolean isOwner = false;
     private boolean isWatcher = false;
     private WelcomeMessage welcomeMessage;
-    private GameController gameController;
+    private BoardController boardController;
     private WaitingController waitingController;
-    private WatchGameController watchGameController;
 
     private Client() {}
 
@@ -88,8 +87,7 @@ public class Client {
     public void setWaitingController(WaitingController waitingController) {
         this.waitingController = waitingController;
     }
-
-
+    
     /**
      * Waits for welcome message from server and then notifies {@link WaitingController}.
      */
@@ -111,16 +109,16 @@ public class Client {
         });
     }
 
-    public void setGameController(GameController gameController) {
-        this.gameController = gameController;
+    public void setBoardController(BoardController boardController) {
+        this.boardController = boardController;
     }
 
     /**
      * Defines the information flow during the game.
      * Depending on the received information, makes game controller to perform appropriate actions.
      */
-    public void play() {
-        System.out.println("Client: started playing");
+    public void handleCommunication() {
+        System.out.println("Client: handle communication");
 
         while (in.hasNextLine()) {
             var response = in.nextLine();
@@ -135,8 +133,8 @@ public class Client {
                         int newVerticalID = Integer.parseInt(commands[3]);
                         int newHorizontalID = Integer.parseInt(commands[4]);
 
-                        gameController.resetActivePawn();
-                        gameController.redrawBoard(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
+                        ((GameController) boardController).resetActivePawn();
+                        boardController.redrawBoard(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
                     });
                     break;
                 }
@@ -146,32 +144,32 @@ public class Client {
                         int oldHorizontalID = Integer.parseInt(commands[2]);
                         int newVerticalID = Integer.parseInt(commands[3]);
                         int newHorizontalID = Integer.parseInt(commands[4]);
-                        gameController.redrawBoard(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
+                        boardController.redrawBoard(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
                     });
                     break;
                 }
                 case "NEXT": {
                     Platform.runLater(() -> {
                         String nextPlayer = commands[1];
-                        gameController.updateCurrentPlayer(nextPlayer);
+                        ((GameController) boardController).updateCurrentPlayer(nextPlayer);
                     });
                     break;
                 }
                 case "HAS_FINISHED": {
                     Platform.runLater(() -> {
                         String player = commands[1];
-                        gameController.updateRanking(player);
+                        ((GameController) boardController).updateRanking(player);
                     });
                     break;
                 }
                 case "END": {
-                    Platform.runLater(() -> gameController.allFinished());
+                    Platform.runLater(() -> boardController.allFinished());
                     break;
                 }
                 case "RAGE_QUIT": {
                     Platform.runLater(() -> {
                         String player = commands[1];
-                        gameController.rageQuit(player);
+                        ((GameController) boardController).rageQuit(player);
                     });
                     break;
                 }
@@ -207,36 +205,5 @@ public class Client {
 
         Platform.exit();
         System.exit(0);
-    }
-
-    public void setWatchController(WatchGameController watchGameController) {
-        this.watchGameController = watchGameController;
-    }
-
-    public void watch() {
-        System.out.println("Client: started watching game");
-
-        while (in.hasNextLine()) {
-            var response = in.nextLine();
-            System.out.println("Response from server: " + response);
-            String[] commands = response.split(" ");
-
-            switch (commands[0]) {
-                case "PAWN_MOVED": {
-                    Platform.runLater(() -> {
-                        int oldVerticalID = Integer.parseInt(commands[1]);
-                        int oldHorizontalID = Integer.parseInt(commands[2]);
-                        int newVerticalID = Integer.parseInt(commands[3]);
-                        int newHorizontalID = Integer.parseInt(commands[4]);
-                        watchGameController.redrawBoard(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
-                    });
-                    break;
-                }
-                case "END": {
-                    Platform.runLater(() -> watchGameController.allFinished());
-                    break;
-                }
-            }
-        }
     }
 }
