@@ -34,22 +34,16 @@ public class GameController extends BoardController {
     private Pawn activePawn = null;
     private List<String> ranking;
 
-    /**
-     * Informs the client who is its controller.
-     * Handles welcome message (see also {@link techprog.client.WelcomeMessage}).
-     * Draws a board and creates ranking.
-     * Creates new thread for client to handle its communication with server during the game.
-     */
-    @FXML
+    @Override
     public void initialize() {
         client = Client.getInstance();
-        client.setGameController(this);
+        client.setBoardController(this);
 
         receiveWelcomeMessage();
         drawBoard();
         createRanking();
 
-        new Thread(() -> client.play()).start();
+        new Thread(() -> client.handleCommunication()).start();
     }
 
     @Override

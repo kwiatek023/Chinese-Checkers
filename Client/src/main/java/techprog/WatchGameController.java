@@ -1,27 +1,12 @@
 package techprog;
 
-import javafx.fxml.FXML;
 import javafx.scene.paint.Color;
 import techprog.board.Field;
 import techprog.board.Pawn;
-import techprog.client.Client;
 
 import static java.lang.Math.sqrt;
 
 public class WatchGameController extends BoardController {
-    private Client client;
-
-    @FXML
-    public void initialize() {
-        client = Client.getInstance();
-        client.setWatchController(this);
-
-        receiveWelcomeMessage();
-        drawBoard();
-
-        new Thread(() -> client.watch()).start();
-    }
-
     @Override
     protected void receiveWelcomeMessage() {
         var welcomeMessage = client.getWelcomeMessage();

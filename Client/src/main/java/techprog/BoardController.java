@@ -17,6 +17,23 @@ public abstract class BoardController {
     protected int noPlayers;
     protected Board board;
 
+    /**
+     * Informs the client who is its controller.
+     * Handles welcome message (see also {@link techprog.client.WelcomeMessage}).
+     * Draws a board and creates ranking.
+     * Creates new thread for client to handle its communication with server during the game.
+     */
+    @FXML
+    public void initialize() {
+        client = Client.getInstance();
+        client.setBoardController(this);
+
+        receiveWelcomeMessage();
+        drawBoard();
+
+        new Thread(() -> client.handleCommunication()).start();
+    }
+
     protected abstract void receiveWelcomeMessage();
 
     protected void drawBoard() {
