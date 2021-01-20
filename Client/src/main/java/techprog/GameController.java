@@ -1,12 +1,8 @@
 package techprog;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-import techprog.board.Board;
 import techprog.board.Field;
 import techprog.board.Pawn;
 import techprog.client.Client;
@@ -23,10 +19,7 @@ import static java.lang.Math.sqrt;
  * Receives information about user's action and pass it to {@link Client}.
  * Displays information about color of client, color of current player and ranking.
  */
-public class GameController {
-    @FXML
-    public BorderPane boardPane;
-
+public class GameController extends BoardController {
     @FXML
     public Label colorLabel;
 
@@ -36,11 +29,8 @@ public class GameController {
     @FXML
     public Label rankingLabel;
 
-    private Client client;
     private Color color;
-    private int noPlayers;
     private String currentPlayer;
-    private Board board;
     private Pawn activePawn = null;
     private List<String> ranking;
 
@@ -62,7 +52,8 @@ public class GameController {
         new Thread(() -> client.play()).start();
     }
 
-    private void receiveWelcomeMessage() {
+    @Override
+    protected void receiveWelcomeMessage() {
         var welcomeMessage = client.getWelcomeMessage();
 
         String colorName = welcomeMessage.getColor();
@@ -75,18 +66,8 @@ public class GameController {
         turnLabel.setText("Now is " + currentPlayer + "'s turn");
     }
 
-    private void drawBoard() {
-        board = new Board(noPlayers);
-        boardPane.setCenter(board);
-
-        int radius = 20;
-        int space = 10;
-
-        drawFields(radius, space);
-        drawPawns(radius, space);
-    }
-
-    private void drawFields(int radius, int space) {
+    @Override
+    protected void drawFields(int radius, int space) {
         for (int i = 0; i < board.getNoRows(); i++) {
             double y = (i * (2 * radius + space)) * sqrt(3) / 2 + (radius + space);
 
@@ -115,7 +96,8 @@ public class GameController {
         }
     }
 
-    private void drawPawns(int radius, int space) {
+    @Override
+    protected void drawPawns(int radius, int space) {
         for (int i = 0; i < board.getNoRows(); i++) {
             double y = (i * (2 * radius + space)) * sqrt(3) / 2 + (radius + space);
 
@@ -167,22 +149,6 @@ public class GameController {
         this.activePawn = null;
     }
 
-    /** Updates a board on the BoardPane.
-     * Changes pawns' location.
-     * @param oldVerticalID   old vertical ID of a pawn
-     * @param oldHorizontalID old horizontal ID of a pawn
-     * @param newVerticalID   new vertical ID of a pawn
-     * @param newHorizontalID new horizontal ID of a pawn
-     */
-    public void redrawBoard(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
-        board.updatePawns(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
-        Field field = board.getField(newVerticalID, newHorizontalID);
-        Pawn movedPawn = board.getPawn(newVerticalID, newHorizontalID);
-
-        movedPawn.setCenterX(field.getCenterX());
-        movedPawn.setCenterY(field.getCenterY());
-    }
-
     /** Updates label with turn information.
      * @param nextPlayer player who will perform next move.
      */
@@ -201,31 +167,10 @@ public class GameController {
     }
 
     /**
-     * Displays dialog window to inform players about the end of the game when everybody has finished.
-     */
-    public void allFinished() {
-        endGameAlert("All players have finished. Congratulation!");
-    }
-
-    /**
      * Displays dialog window to inform players about the end of the game when everybody has left.
      */
     public void rageQuit(String player) {
         endGameAlert("Rage quit :( " + player + " has gone");
-    }
-
-    private void endGameAlert(String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("The end of the game");
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.setOnCloseRequest(e -> client.closeConnection());
-
-        alert.showAndWait();
-
-        if (alert.getResult() == ButtonType.OK) {
-            client.closeConnection();
-        }
     }
 
     /**
