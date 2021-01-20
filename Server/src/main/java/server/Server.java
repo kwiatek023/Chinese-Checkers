@@ -21,4 +21,13 @@ public class Server {
     new Game(server);
     System.out.println("Server: Room is open.");
   }
+
+  public void watchGame(int gameId) {
+    try {
+      new Watcher(server, gameId);
+    } catch (IOException ex) {
+      System.out.println("Server: unable to watch a game.");
+    }
+    System.out.println("Server: Started watching.");
+  }
 }

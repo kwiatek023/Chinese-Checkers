@@ -5,6 +5,7 @@ USE chinese_checkers;
 CREATE TABLE games
 (
     id INT          NOT NULL AUTO_INCREMENT,
+    noPlayers INT NOT NULL,
     date        TIMESTAMP NOT NULL,
     PRIMARY KEY (id)
 );

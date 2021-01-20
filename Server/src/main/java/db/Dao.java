@@ -2,6 +2,7 @@ package db;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -21,16 +22,16 @@ public class Dao {
     }
 
 
-    public List<MovesEntity> getMovesForGame(int id) {
+    public GamesEntity getGame(int id) {
         Session session = sessionFactory.openSession();
-        String sqlQuery = "FROM MovesEntity WHERE game_id=" + id;
 
-        @SuppressWarnings("unchecked")
-        List<MovesEntity> moves = (List<MovesEntity>) session.createQuery(sqlQuery).list();
+        Query<GamesEntity> query = session.createQuery("FROM GamesEntity WHERE id = (:id)", GamesEntity.class);
+        query.setParameter("id", id);
+        GamesEntity gamesEntity = query.getSingleResult();
 
         session.close();
 
-        return moves;
+        return gamesEntity;
     }
 
 }

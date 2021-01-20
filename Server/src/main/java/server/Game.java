@@ -212,7 +212,7 @@ public class Game {
 
           for (Player player : players) {
             if (player != this) {
-              player.protocol.opponentMoved(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
+              player.protocol.pawnMoved(oldVerticalID, oldHorizontalID, newVerticalID, newHorizontalID);
             }
           }
 

@@ -9,14 +9,12 @@ import java.util.Objects;
 @Table(name = "games", schema = "chinese_checkers")
 public class GamesEntity {
     private int id;
+    private int noPlayers;
     private Timestamp date;
     private List<MovesEntity> moves;
 
     public GamesEntity() {
-    }
-
-    public GamesEntity(Timestamp date) {
-        this.date = date;
+        this.date = new Timestamp(System.currentTimeMillis());
     }
 
     @Id
@@ -51,16 +49,29 @@ public class GamesEntity {
         this.moves = moves;
     }
 
+    @Basic
+    @Column(name = "noPlayers", nullable = false)
+    public int getNoPlayers() {
+        return noPlayers;
+    }
+
+    public void setNoPlayers(int noPlayers) {
+        this.noPlayers = noPlayers;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GamesEntity that = (GamesEntity) o;
-        return id == that.id && Objects.equals(date, that.date);
+        return id == that.id &&
+            noPlayers == that.noPlayers &&
+            Objects.equals(date, that.date) &&
+            Objects.equals(moves, that.moves);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, date);
+        return Objects.hash(id, noPlayers, date, moves);
     }
 }

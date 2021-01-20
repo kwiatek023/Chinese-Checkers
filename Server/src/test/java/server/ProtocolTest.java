@@ -25,7 +25,7 @@ class ProtocolTest {
     protocol.welcome("GREEN", 3, "YELLOW");
     protocol.sendHandshake("OWNER");
     protocol.validMoveMsg(1, 1, 2, 2);
-    protocol.opponentMoved(1, 1, 2, 2);
+    protocol.pawnMoved(1, 1, 2, 2);
     protocol.nextTurn("GREEN");
     protocol.hasFinished("GREEN");
     protocol.rageQuit("GREEN");

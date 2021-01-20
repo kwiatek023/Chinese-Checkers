@@ -14,11 +14,11 @@ public class Protocol {
   }
 
   /** Sends handshake message to a client.
-   * @param name name of the client.
+   * @param handshake handshake to the client.
    */
-  public void sendHandshake(String name) {
-    output.println(name);
-    System.out.println("Handshake sent to " + name);
+  public void sendHandshake(String handshake) {
+    output.println(handshake);
+    System.out.println("Handshake sent to " + handshake);
   }
 
   /** Sends "WELCOME" message to client.
@@ -53,9 +53,9 @@ public class Protocol {
    * @param newVerticalID new vertical ID of a pawn
    * @param newHorizontalID new horizontal ID of a pawn
    */
-  public void opponentMoved(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
-    output.println("OPPONENT_MOVED " + oldVerticalID + " " + oldHorizontalID + " " + newVerticalID + " " + newHorizontalID);
-    System.out.println("Opponent moved message sent: " + oldVerticalID + " " + oldHorizontalID + " " + newVerticalID + " " + newHorizontalID);
+  public void pawnMoved(int oldVerticalID, int oldHorizontalID, int newVerticalID, int newHorizontalID) {
+    output.println("PAWN_MOVED " + oldVerticalID + " " + oldHorizontalID + " " + newVerticalID + " " + newHorizontalID);
+    System.out.println("Pawn moved message sent: " + oldVerticalID + " " + oldHorizontalID + " " + newVerticalID + " " + newHorizontalID);
   }
 
   /** Sends "VALID_MOVE" to a client.

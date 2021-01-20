@@ -1,6 +1,14 @@
+import db.Dao;
+import db.GamesEntity;
+import db.MovesEntity;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import server.Server;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Main class that launches the server.
@@ -9,14 +17,17 @@ public class Main {
   public static void main(String[] args) {
     try {
       Server server = new Server();
-      server.openRoom();
+      if (args.length == 0) {
+        server.openRoom();
+      } else {
+        server.watchGame(Integer.parseInt(args[0]));
+      }
     } catch (IOException e) {
       System.out.println("Unable to run the server.");
     }
-//    ApplicationContext appContext = new ClassPathXmlApplicationContext(
-//            "config/spring-configuration.xml");
-//
-//
+
+
+
 //    GamesEntity game = new GamesEntity(new Timestamp(System.currentTimeMillis()));
 //
 //    MovesEntity move1 = new MovesEntity("GREEN", 1, 1, 2, 3, game);
