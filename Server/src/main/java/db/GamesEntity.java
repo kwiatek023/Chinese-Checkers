@@ -12,6 +12,13 @@ public class GamesEntity {
     private Timestamp date;
     private List<MovesEntity> moves;
 
+    public GamesEntity() {
+    }
+
+    public GamesEntity(Timestamp date) {
+        this.date = date;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

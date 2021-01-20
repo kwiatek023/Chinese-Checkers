@@ -18,12 +18,13 @@ public class MovesEntity {
 
     }
 
-    public MovesEntity(String playerColor, int oldVerticalId, int oldHorizontalId, int newVerticalId, int newHorizontalId) {
+    public MovesEntity(String playerColor, int oldVerticalId, int oldHorizontalId, int newVerticalId, int newHorizontalId, GamesEntity game) {
         this.playerColor = playerColor;
         this.oldVerticalId = oldVerticalId;
         this.oldHorizontalId = oldHorizontalId;
         this.newVerticalId = newVerticalId;
         this.newHorizontalId = newHorizontalId;
+        this.game = game;
     }
 
     @Id

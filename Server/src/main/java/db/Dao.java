@@ -5,7 +5,7 @@ import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-public class DAO {
+public class Dao {
     private SessionFactory sessionFactory;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
@@ -13,7 +13,6 @@ public class DAO {
     }
 
     public void saveGame(GamesEntity game) {
-
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.save(game);
@@ -23,9 +22,8 @@ public class DAO {
 
 
     public List<MovesEntity> getMovesForGame(int id) {
-
         Session session = sessionFactory.openSession();
-        String sqlQuery = "FROM Moves WHERE game_id=" + id;
+        String sqlQuery = "FROM MovesEntity WHERE game_id=" + id;
 
         @SuppressWarnings("unchecked")
         List<MovesEntity> moves = (List<MovesEntity>) session.createQuery(sqlQuery).list();

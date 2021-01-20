@@ -28,7 +28,7 @@
         </property>
     </bean>
 
-    <bean id="dao" class="db.DAO">
+    <bean id="dao" class="db.Dao">
         <property name="sessionFactory" ref="hibernateSessionFactory"/>
     </bean>
 </beans>
