@@ -39,7 +39,7 @@ public class GamesEntity {
     }
 
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="game_id")
     public List<MovesEntity> getMoves() {
         return moves;

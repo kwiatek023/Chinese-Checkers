@@ -26,9 +26,9 @@ public class Main {
       System.out.println("Unable to run the server.");
     }
 
-
-
-//    GamesEntity game = new GamesEntity(new Timestamp(System.currentTimeMillis()));
+//    ApplicationContext appContext = new ClassPathXmlApplicationContext("config/spring-configuration.xml");
+//    GamesEntity game = new GamesEntity();
+//    game.setNoPlayers(3);
 //
 //    MovesEntity move1 = new MovesEntity("GREEN", 1, 1, 2, 3, game);
 //    MovesEntity move2 = new MovesEntity("RED", 1, 7, 9, 3, game);
@@ -40,10 +40,5 @@ public class Main {
 //    game.setMoves(moves);
 //    Dao gameDao = (Dao) appContext.getBean("dao");
 //    gameDao.saveGame(game);
-//
-//    List<MovesEntity> retrievedMoves = gameDao.getMovesForGame(1);
-//    for(MovesEntity movesEntity: retrievedMoves) {
-//      System.out.println(movesEntity.getMoveId());
-//    }
   }
 }
